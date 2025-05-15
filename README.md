@@ -56,7 +56,7 @@ The demo page showcases:
 
 ## How to Use (Within the Single Demo File)
 
-The `JS-RTS-Menu` class and its supporting `CooldownManager` are defined within the `<script>` tags of `JS-RTS-Menu-Demo.html`.
+The `JS-RTS-Menu` class and its supporting `CooldownManager` are defined within the `<script>` tags of `index.html`.
 
 1.  **HTML Structure:**
     Ensure these elements are present in your HTML body:
@@ -66,7 +66,7 @@ The `JS-RTS-Menu` class and its supporting `CooldownManager` are defined within 
     ```
 
 2.  **CSS:**
-    The necessary CSS is included in the `<style>` block within `JS-RTS-Menu-Demo.html`. You can customize the CSS Custom Properties at the top of the style block (inside `:root { ... }`) to alter the default theme, or define your own theme classes (like `.js-rts-menu-dark-theme`).
+    The necessary CSS is included in the `<style>` block within `index.html`. You can customize the CSS Custom Properties at the top of the style block (inside `:root { ... }`) to alter the default theme, or define your own theme classes (like `.js-rts-menu-dark-theme`).
 
 3.  **JavaScript Initialization & Usage:**
     ```javascript
@@ -129,7 +129,7 @@ The `JS-RTS-Menu` class and its supporting `CooldownManager` are defined within 
 
 ## Development & Testing
 
-The `JS-RTS-Menu-Demo.html` file includes an internal `MenuTester` class. Click the "Run Health Check" button on the demo page to execute a suite of automated tests verifying core functionalities.
+The `index.html` file includes an internal `MenuTester` class. Click the "Run Health Check" button on the demo page to execute a suite of automated tests verifying core functionalities.
 
 ## License
 
