@@ -1,6 +1,11 @@
 # JS-RTS-Menu
 
-**JS-RTS-Menu** is a versatile, accessible, and script-driven JavaScript menu system. Originally designed with RTS (Real-Time Strategy) game UIs in mind, it's flexible enough for general web applications, context menus, and dynamic action lists. It is provided as a single HTML file (`JS-RTS-Menu-Demo.html`) containing all necessary HTML, CSS, and JavaScript, with no external dependencies (vanilla JS).
+**JS-RTS-Menu** is a versatile, accessible, and script-driven JavaScript menu system. Originally designed with RTS (Real-Time Strategy) game UIs in mind, it's flexible enough for general web applications, context menus, and dynamic action lists. It is provided as a single HTML file (`index.html`) containing all necessary HTML, CSS, and JavaScript, with no external dependencies (vanilla JS).
+
+![screenshot](https://raw.githubusercontent.com/BadFoxAI/js-rts-menu/main/screenshot.png)
+
+Try Here at: [https://js-rts-menu.netlify.app/](https://js-rts-menu.netlify.app/)
+
 
 ## Features
 
