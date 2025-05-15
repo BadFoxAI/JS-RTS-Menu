@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Project: RTSMenu.js | File: RTSMenuDemo.html -->
+    <title>RTSMenu.js - Demo</title>
+    <style>
+        :root {
+            /* RTSMenu Default Theme Variables */
+            --rtsmenu-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --rtsmenu-text-color-primary: #333;
+            --rtsmenu-text-color-secondary: #555;
+            --rtsmenu-text-color-subtle: #777;
+            --rtsmenu-text-color-disabled: #aaaaaa;
+            --rtsmenu-text-color-insufficient: #c0392b;
+            
+            --rtsmenu-bg: #ffffff;
+            --rtsmenu-border-color: #cccccc;
+            --rtsmenu-border-radius: 6px;
+            --rtsmenu-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            --rtsmenu-padding-y: 6px;
+            --rtsmenu-padding-x: 0;
+
+            --rtsmenu-item-padding-y: 8px;
+            --rtsmenu-item-padding-x: 12px;
+            --rtsmenu-item-button-padding-y: 8px;
+            --rtsmenu-item-button-padding-x: 0;
+            --rtsmenu-item-hover-bg: #f0f4f8;
+            --rtsmenu-item-hover-text-color: #1a1a1a;
+            --rtsmenu-item-focus-outline-color: #3498db;
+            --rtsmenu-item-focus-bg: #eaf2fa;
+
+            --rtsmenu-icon-size: 16px;
+            --rtsmenu-icon-margin-right: 10px;
+            --rtsmenu-check-radio-indicator-margin-right: 8px;
+
+
+            --rtsmenu-hotkey-font-size: 0.8em;
+            --rtsmenu-hotkey-padding-left: 15px;
+
+            --rtsmenu-cost-font-size: 0.85em;
+            --rtsmenu-cost-margin-left: 8px;
+            
+            --rtsmenu-separator-color: #e0e0e0;
+            --rtsmenu-separator-margin-y: 6px;
+
+            --rtsmenu-tooltip-bg: #2c3e50;
+            --rtsmenu-tooltip-text-color: #fff;
+            --rtsmenu-tooltip-padding-y: 8px;
+            --rtsmenu-tooltip-padding-x: 12px;
+            --rtsmenu-tooltip-radius: 4px;
+            --rtsmenu-tooltip-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+            --rtsmenu-cooldown-overlay-bg: rgba(50, 50, 50, 0.4);
+            --rtsmenu-cooldown-text-color: white;
+        }
+
+        body.rtsmenu-dark-theme {
+            --rtsmenu-text-color-primary: #e0e0e0;
+            --rtsmenu-text-color-secondary: #b0b0b0;
+            --rtsmenu-text-color-subtle: #909090;
+            --rtsmenu-text-color-disabled: #777777;
+            --rtsmenu-text-color-insufficient: #e74c3c;
+
+            --rtsmenu-bg: #2c3e50;
+            --rtsmenu-border-color: #4a5c6e;
+            --rtsmenu-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+            --rtsmenu-item-hover-bg: #34495e;
+            --rtsmenu-item-hover-text-color: #ffffff;
+            --rtsmenu-item-focus-outline-color: #5dade2;
+            --rtsmenu-item-focus-bg: #283747;
+
+            --rtsmenu-separator-color: #4a5c6e;
+
+            --rtsmenu-tooltip-bg: #ecf0f1;
+            --rtsmenu-tooltip-text-color: #2c3e50;
+            --rtsmenu-tooltip-shadow: 0 2px 5px rgba(255,255,255,0.1);
+
+            --rtsmenu-cooldown-overlay-bg: rgba(200, 200, 200, 0.3);
+            --rtsmenu-cooldown-text-color: #111;
+        }
+        
+        body { 
+            font-family: var(--rtsmenu-font-family); 
+            margin: 0; padding: 20px; background-color: #f4f4f8; min-height: 150vh; color: #333; 
+        }
+        body.rtsmenu-dark-theme { background-color: #1c2833; color: #e0e0e0; }
+
+        h1 { color: #1a1a1a; } 
+        body.rtsmenu-dark-theme h1 { color: #f0f0f0; }
+        p { line-height: 1.6; } 
+        
+        #position-test-target { position: absolute; bottom: 30px; right: 30px; padding: 15px; border: 2px dashed #e74c3c; background-color: #fadde1; cursor: context-menu; text-align: center; }
+        body.rtsmenu-dark-theme #position-test-target {
+            background-color: #4a5568; 
+            border-color: #e53e3e; 
+            color: #e2e8f0; 
+        }
+        #top-left-target { position: absolute; top: 5px; left: 5px; padding: 10px; border: 1px dashed blue; cursor: context-menu;}
+        
+        #rtsmenu-container { display: none; position: absolute; background-color: var(--rtsmenu-bg); border: 1px solid var(--rtsmenu-border-color); box-shadow: var(--rtsmenu-shadow); z-index: 1000; min-width: 200px; padding: var(--rtsmenu-padding-y) var(--rtsmenu-padding-x); opacity: 0; border-radius: var(--rtsmenu-border-radius); outline: none; }
+        .rtsmenu-button-wrapper { position: relative; display: flex; align-items: center; padding: 0px var(--rtsmenu-item-padding-x); outline: none; }
+        #rtsmenu-container button:focus { outline: 2px solid var(--rtsmenu-item-focus-outline-color); outline-offset: -2px; background-color: var(--rtsmenu-item-focus-bg); }
+        .rtsmenu-button-wrapper:hover { background-color: var(--rtsmenu-item-hover-bg); }
+        .rtsmenu-button-wrapper:hover > button, .rtsmenu-button-wrapper > button:focus { background-color: transparent; color: var(--rtsmenu-item-hover-text-color); }
+        .rtsmenu-button-wrapper:has(button:disabled) { background-color: transparent; cursor: not-allowed; }
+        .rtsmenu-button-wrapper:has(button:disabled):hover { background-color: transparent; }
+        #rtsmenu-container button { role: menuitem; flex-grow: 1; padding: var(--rtsmenu-item-button-padding-y) var(--rtsmenu-item-button-padding-x); text-align: left; border: none; background-color: transparent; cursor: pointer; font-size: 0.95em; display: flex; align-items: center; width: 100%; color: var(--rtsmenu-text-color-primary); border-radius: 4px; }
+        .rtsmenu-button-icon { width: var(--rtsmenu-icon-size); height: var(--rtsmenu-icon-size); margin-right: var(--rtsmenu-icon-margin-right); flex-shrink: 0; pointer-events: none; }
+        .rtsmenu-button-label { flex-grow: 1; pointer-events: none; }
+        .rtsmenu-button-cost { font-size: var(--rtsmenu-cost-font-size); color: var(--rtsmenu-text-color-secondary); margin-left: var(--rtsmenu-cost-margin-left); white-space: nowrap; pointer-events: none; }
+        .rtsmenu-button-cost.cost-insufficient { color: var(--rtsmenu-text-color-insufficient); }
+        .rtsmenu-button-hotkey { font-size: var(--rtsmenu-hotkey-font-size); color: var(--rtsmenu-text-color-subtle); padding-left: var(--rtsmenu-hotkey-padding-left); flex-shrink: 0; font-weight: normal; }
+        #rtsmenu-container button:disabled { color: var(--rtsmenu-text-color-disabled); cursor: not-allowed; background-color: transparent; }
+        #rtsmenu-container button.rtsmenu-back-button .rtsmenu-button-label { font-style: italic; }
+        #rtsmenu-global-tooltip { visibility: hidden; opacity: 0; background-color: var(--rtsmenu-tooltip-bg); color: var(--rtsmenu-tooltip-text-color); text-align: left; border-radius: var(--rtsmenu-tooltip-radius); padding: var(--rtsmenu-tooltip-padding-y) var(--rtsmenu-tooltip-padding-x); position: fixed; z-index: 1002; font-size: 0.85em; line-height: 1.4; transition: opacity 0.1s ease-out; white-space: normal; pointer-events: none; max-width: 280px; box-shadow: var(--rtsmenu-tooltip-shadow); outline: none !important; left: -9999px; top: -9999px; }
+        .rtsmenu-separator { height: 1px; background-color: var(--rtsmenu-separator-color); margin: var(--rtsmenu-separator-margin-y) 0; }
+        .rtsmenu-button-cooldown-timer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--rtsmenu-cooldown-overlay-bg); display: none; align-items: center; justify-content: center; color: var(--rtsmenu-cooldown-text-color); font-weight: bold; font-size: 0.9em; pointer-events: none; border-radius: 4px; }
+        
+        .rtsmenu-item-indicator { 
+            width: var(--rtsmenu-icon-size); 
+            height: var(--rtsmenu-icon-size);
+            margin-right: var(--rtsmenu-check-radio-indicator-margin-right); 
+            text-align: center; 
+            display: inline-block; 
+            line-height: var(--rtsmenu-icon-size); 
+            flex-shrink: 0;
+        }
+        button[role="menuitemcheckbox"][aria-checked="true"] > .rtsmenu-item-indicator::before { content: '✓'; }
+        button[role="menuitemradio"][aria-checked="true"] > .rtsmenu-item-indicator::before { content: '●'; } 
+        button[role="menuitemradio"][aria-checked="false"] > .rtsmenu-item-indicator::before { content: '○'; }
+
+
+        .demo-controls { margin-bottom: 20px; padding:10px; background-color:#fff; border:1px solid #ddd; border-radius:4px;}
+        .demo-controls button { margin: 5px;} .demo-controls button:disabled { background-color: #e0e0e0; color: #999; cursor: not-allowed; border-color: #d0d0d0;}
+        #test-suite-controls { margin: 20px; padding: 10px; border: 1px solid #3498db; background-color: #eaf2fa; border-radius: 6px; } #test-suite-controls button { margin-right: 10px; background-color: #3498db; color: white; border: none; } #test-suite-controls button:hover { background-color: #2980b9; } #test-report { margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; max-height: 300px; overflow-y: auto; font-family: monospace; white-space: pre; font-size: 0.9em; border-radius: 4px; } .test-pass { color: #27ae60; } .test-fail { color: #c0392b; font-weight: bold; } .test-summary-header { font-weight: bold; margin-top:10px; border-top: 1px dashed #aaa; padding-top: 5px;} .test-action-item { color: #555; font-style: italic; font-size: 0.9em; }
+
+        body.rtsmenu-dark-theme #test-suite-controls { background-color: #34495e; border-color: #5dade2; }
+        body.rtsmenu-dark-theme #test-suite-controls button { background-color: #5dade2; }
+        body.rtsmenu-dark-theme #test-suite-controls button:hover { background-color: #4a98c2; }
+        body.rtsmenu-dark-theme #test-report, body.rtsmenu-dark-theme .demo-controls { background-color: #1c2833; border-color: #4a5c6e; }
+        body.rtsmenu-dark-theme .demo-controls button:disabled { background-color: #454545; color: #777; border-color: #555;}
+        body.rtsmenu-dark-theme button { background-color: #34495e; color: #e0e0e0; border-color: #4a5c6e; }
+        body.rtsmenu-dark-theme button:hover { background-color: #4a5c6e; }
+        body.rtsmenu-dark-theme button:active { background-color: #2c3e50; }
+        body.rtsmenu-dark-theme input[type="text"] { background-color: #2c3e50; color: #e0e0e0; border: 1px solid #4a5c6e;}
+    </style>
+</head>
+<body>
+    <h1>RTSMenu.js - Demo</h1>
+    <p>Demonstrates Checkbox/Radio Items, Type-Ahead Search, Theming, and Submenu Positioning. Press 'M', Right-Click, or 'L'.</p>
+    <button id="demo-trigger-button">Open Main Menu (Click or M)</button>
+    <button id="demo-long-menu-button">Open Long Menu (Click or L)</button>
+    <div id="top-left-target">Top-Left Target (Right-Click)</div>
+
+    <div class="demo-controls">
+        <h3>Dynamic Menu Controls (acts on open menu)</h3>
+        <button id="demo-add-item-start">Add Item to Start</button>
+        <button id="demo-add-item-mid">Add Item to Middle (idx 2)</button>
+        <button id="demo-remove-item-start">Remove Item from Start</button>
+        <button id="demo-remove-item-mid">Remove Item from Middle (idx 1)</button>
+        <br>
+        <input type="text" id="demo-update-label-text" placeholder="New Label for Item 0" value="Updated Item 0!">
+        <button id="demo-update-item-0">Update Item 0 Label</button>
+        <button id="demo-toggle-disable-item-0">Toggle Disable Item 0</button>
+        <hr>
+        <h3>Theming Controls</h3>
+        <button id="theme-default-button">Default Theme</button>
+        <button id="theme-dark-button">Dark Theme</button>
+        <p id="demo-feature-x-status">Feature X: Disabled</p>
+    </div>
+
+    <div id="test-suite-controls">
+        <button id="run-tests-button">Run Health Check</button>
+        <button id="copy-report-button">Copy Test Report</button>
+        <div id="test-report">Test report will appear here...</div>
+    </div>
+
+    <div id="position-test-target">Right-Click Me (Near Edge)</div>
+    <div id="rtsmenu-container" role="menu" aria-orientation="vertical"></div>
+    <div id="rtsmenu-global-tooltip" class="menu-tooltip" role="tooltip" aria-hidden="true" tabindex="-1"></div>
+
+    <script>
+        const ICONS = { SAVE:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%234CAF50"/></svg>',LOAD:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%232196F3"/></svg>',SETTINGS:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23FFC107"/></svg>',QUIT:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23F44336"/></svg>',ACTION:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%239C27B0"/></svg>',TOOL:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23795548"/></svg>',CMD:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23607D8B"/></svg>',ALERT:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23E91E63"/></svg>',ADD:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23FF9800"/></svg>',INFO:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%2300BCD4"/></svg>',BACK:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2303A9F4" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>' };
+        class CooldownManager { constructor() { this.cooldowns = new Map(); } start(abilityId, durationSeconds) { if (!abilityId || typeof abilityId !== 'string' || durationSeconds <= 0) { console.warn("CooldownManager: Invalid parameters for start().", {abilityId, durationSeconds}); return; } const endTime = Date.now() + durationSeconds * 1000; this.cooldowns.set(abilityId, endTime); /*console.log(`CooldownManager: Started '${abilityId}' cooldown for ${durationSeconds}s.`);*/ } isOnCooldown(abilityId) { if (!abilityId) return false; const endTime = this.cooldowns.get(abilityId); return endTime && Date.now() < endTime; } getRemainingSeconds(abilityId) { if (!abilityId) return 0; const endTime = this.cooldowns.get(abilityId); if (endTime && Date.now() < endTime) { return Math.max(0, (endTime - Date.now()) / 1000); } return 0; } }
+        const globalCooldownManager = new CooldownManager();
+
+        /**
+         * @class RTSMenu
+         * A script-driven, accessible menu system, often used in RTS game UIs,
+         * supporting general application and context menu use cases.
+         * Features keyboard navigation, submenus, dynamic item management,
+         * cooldowns, tooltips, CSS-based theming, type-ahead search,
+         * and checkbox/radio menu items.
+         */
+        class RTSMenu {
+            /**
+             * Creates an instance of RTSMenu.
+             * @param {string} containerId - The ID of the HTML element that will contain the menu.
+             * @param {CooldownManager} cooldownManagerInstance - An instance of CooldownManager.
+             */
+            constructor(containerId, cooldownManagerInstance) { 
+                this.container = document.getElementById(containerId);
+                if (!this.container) { console.error(`RTSMenu Error: Container ID "${containerId}" not found.`); return; }
+                if (!cooldownManagerInstance || typeof cooldownManagerInstance.isOnCooldown !== 'function') { 
+                    console.error(`RTSMenu Error: Valid CooldownManager instance is required.`); return; 
+                }
+                this.cooldownManager = cooldownManagerInstance;
+                this.buttonsData = []; this.isVisible = false; this.menuStateStack = []; 
+                this.currentBuilderFn = null; this.visualCooldownTimers = new Map(); 
+                this.focusedIndex = -1; this.baseMenuId = containerId; this.nextItemId = 0; 
+                this.triggerElementForCurrentSequence = null; 
+                this.lastContextMenuTargetIsBody = null;
+                this.currentSequenceAnchor = null; 
+
+                this.tooltipElement = document.getElementById('rtsmenu-global-tooltip'); 
+                if (!this.tooltipElement) { 
+                    this.tooltipElement = document.createElement('div'); 
+                    this.tooltipElement.id = 'rtsmenu-global-tooltip'; 
+                    this.tooltipElement.className = 'menu-tooltip'; 
+                    this.tooltipElement.setAttribute('role', 'tooltip'); 
+                    this.tooltipElement.setAttribute('aria-hidden', 'true'); 
+                    document.body.appendChild(this.tooltipElement); 
+                    console.warn("RTSMenu Warning: Global tooltip element '#rtsmenu-global-tooltip' not found, created fallback."); 
+                }
+                this.tooltipElement.setAttribute('tabindex', '-1');
+                this.activeTooltipTarget = null; this.tooltipShowTimeout = null; this.tooltipHideTimeout = null; this.tooltipShowDelay = 400; 
+
+                this.searchQuery = '';
+                this.searchTimeout = null;
+                this.searchDelay = 700; 
+
+                this.container.setAttribute('role', 'menu'); 
+                this.container.setAttribute('aria-orientation', 'vertical');
+                this._setupGlobalListeners();
+            }
+
+            /**
+             * Clears the current type-ahead search query and associated timeout.
+             * @param {string|null} [logMessage="RTSMenu: Search query cleared."] - Optional message for logging. Pass null to suppress logging.
+             * @private
+             */
+            _clearSearchState(logMessage = "RTSMenu: Search query cleared.") {
+                clearTimeout(this.searchTimeout);
+                this.searchQuery = '';
+                this.searchTimeout = null;
+                if(logMessage && logMessage.length > 0) console.log(logMessage);
+            }
+
+            /**
+             * Sets up global event listeners for menu interactions.
+             * @private
+             */
+            _setupGlobalListeners() { 
+                document.addEventListener('click', (event) => { if (this.isVisible && !this.container.contains(event.target)) { if (this.triggerElementForCurrentSequence && this.triggerElementForCurrentSequence.contains(event.target)) { return; } this.hide(); } });
+                document.addEventListener('keydown', (event) => { 
+                    if (!this.isVisible) return; 
+                    const activeElement = document.activeElement; 
+                    if (activeElement !== this.container && activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable)) return; 
+                    
+                    const pressedKey = event.key.toLowerCase(); 
+                    let keyHandled = false;
+
+                    // 1. Handle Type-ahead Search for single printable characters (excluding Space)
+                    if (event.key.length === 1 && event.key !== ' ' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                        event.preventDefault();
+                        this.searchQuery += pressedKey; 
+                        this._performSearch();
+                        keyHandled = true;
+                    }
+                    if (keyHandled) return; 
+                    
+                    // 2. Handle Hotkeys (e.g., F-keys, or modified keys if supported in future)
+                    let specificHotkeyMatched = false; 
+                    if (event.key.length > 1 || event.ctrlKey || event.altKey || event.metaKey ) {
+                        for (const btnData of this.buttonsData) { 
+                            if (btnData.hotkey && btnData.hotkey.toLowerCase() === pressedKey) { 
+                                if (!btnData.disabled && (this._canActivateItem(btnData) || btnData.options?.type === 'checkbox' || btnData.options?.type === 'radio')) {
+                                    event.preventDefault();
+                                    console.log(`RTSMenu: Hotkey '${btnData.hotkey}' for "${btnData.label}"`);
+                                    if (btnData.options?.type === 'checkbox' || btnData.options?.type === 'radio') {
+                                        const oldCheckedState = btnData.options.checked;
+                                        this._toggleCheckableItem(btnData);
+                                        if (typeof btnData.callback === 'function') {
+                                            if (btnData.options.type === 'checkbox' || oldCheckedState !== btnData.options.checked) {
+                                                btnData.callback(btnData.options.checked, btnData);
+                                            }
+                                        }
+                                    } else {
+                                        this._executeCallback(btnData);
+                                    }
+                                    specificHotkeyMatched = true;
+                                    break; 
+                                } else if (btnData.options?.abilityId && this.cooldownManager.isOnCooldown(btnData.options.abilityId)) { 
+                                    console.log(`RTSMenu: Hotkey '${btnData.hotkey}' ignored, ability on cooldown.`); 
+                                    event.preventDefault(); specificHotkeyMatched = true; break;
+                                } else if (btnData.disabled) { 
+                                    console.log(`RTSMenu: Hotkey '${btnData.hotkey}' ignored, item disabled.`); 
+                                    event.preventDefault(); specificHotkeyMatched = true; break;
+                                } 
+                            } 
+                        }
+                    }
+                    if (specificHotkeyMatched) return; 
+                    
+                    // 3. Handle Navigation and Activation Keys
+                    switch (event.key) {
+                        case 'Backspace':
+                            event.preventDefault();
+                            if (this.searchQuery.length > 0) {
+                                this.searchQuery = this.searchQuery.slice(0, -1);
+                                if (this.searchQuery.length > 0) {
+                                    this._performSearch();
+                                } else {
+                                    this._clearSearchState("RTSMenu: Search query cleared by backspace.");
+                                    const currentFocusedItem = this.buttonsData[this.focusedIndex];
+                                    if (currentFocusedItem && currentFocusedItem.element && !currentFocusedItem.isSeparator && !currentFocusedItem.disabled) {
+                                        this._setFocus(this.focusedIndex);
+                                    } else {
+                                        this.navigateToFirst();
+                                    }
+                                }
+                            }
+                            break;
+                        case 'Escape': 
+                            event.preventDefault(); 
+                            if (this.searchQuery !== '') {
+                                this._clearSearchState("RTSMenu: Escape cleared active search.");
+                                const currentFocusedItem = this.buttonsData[this.focusedIndex];
+                                 if (currentFocusedItem && currentFocusedItem.element && !currentFocusedItem.isSeparator && !currentFocusedItem.disabled) {
+                                    this._setFocus(this.focusedIndex); 
+                                } else {
+                                    this.navigateToFirst();
+                                }
+                            } else { 
+                                if (this.menuStateStack.length > 0) { 
+                                    const parentState = this.menuStateStack.pop(); 
+                                    if (parentState && parentState.builder) { 
+                                        this.triggerElementForCurrentSequence = parentState.overallTriggerElement; 
+                                        this.currentSequenceAnchor = parentState.parentAnchor; 
+                                        this.show(this.currentSequenceAnchor, parentState.builder, parentState.triggerItemIndexInParent); 
+                                    } 
+                                } else { this.hide(); } 
+                            }
+                            break; 
+                        case 'ArrowUp': event.preventDefault(); this._clearSearchState(null); this.navigate(-1); break; 
+                        case 'ArrowDown': event.preventDefault(); this._clearSearchState(null); this.navigate(1); break; 
+                        case 'Enter': case ' ': event.preventDefault(); this.activateFocusedItem(); break; 
+                        case 'Home': event.preventDefault(); this._clearSearchState(null); this.navigateToFirst(); break; 
+                        case 'End': event.preventDefault(); this._clearSearchState(null); this.navigateToLast(); break; 
+                        case 'Tab': event.preventDefault(); this.hide(); break; 
+                    } 
+                });
+            }
+
+            /**
+             * Performs a search based on `this.searchQuery` and focuses the first match.
+             * @private
+             */
+            _performSearch() {
+                clearTimeout(this.searchTimeout); 
+                if (!this.searchQuery) {
+                    this._clearSearchState("RTSMenu: Search query became empty, search stopped.");
+                    return;
+                }
+                // console.log(`RTSMenu: _performSearch looking for "${this.searchQuery}"`);
+
+                let firstMatchIndex = -1;
+                for (let i = 0; i < this.buttonsData.length; i++) {
+                    const itemData = this.buttonsData[i];
+                    if (itemData.element && !itemData.isSeparator && !itemData.disabled) {
+                        const labelText = itemData.label.toLowerCase();
+                        if (labelText.startsWith(this.searchQuery)) {
+                            firstMatchIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (firstMatchIndex !== -1) {
+                    this._setFocus(firstMatchIndex);
+                } else {
+                    console.log(`RTSMenu: No match found for "${this.searchQuery}". Current focus index: ${this.focusedIndex}`);
+                }
+
+                this.searchTimeout = setTimeout(() => {
+                    this._clearSearchState(); 
+                }, this.searchDelay);
+            }
+
+            /** Generates a unique ID for menu items. @private */
+            _generateUniqueId() { return `${this.baseMenuId}-item-${this.nextItemId++}`; }
+
+            /** 
+             * Checks if a standard (non-checkable) menu item can be activated.
+             * @param {object} bd - Button data object.
+             * @returns {boolean}
+             * @private
+             */
+            _canActivateItem(bd) { 
+                return bd && !bd.isSeparator && !bd.disabled && 
+                       !(bd.options?.abilityId && this.cooldownManager.isOnCooldown(bd.options.abilityId)) && 
+                       typeof bd.callback === 'function';
+            }
+            
+            /** Navigates menu items. @param {number} direction - -1 for up, 1 for down. @private */
+            navigate(direction) { const itemCount = this.buttonsData.length; if (itemCount === 0) return; const isNavigable = (index) => { const item = this.buttonsData[index]; return item && item.element && !item.isSeparator && !item.disabled; }; let currentTabbableIndex = this.buttonsData.findIndex(bd => bd.element && bd.element.getAttribute('tabindex') === '0'); if (currentTabbableIndex === -1) { currentTabbableIndex = this.focusedIndex; } let searchIndex = currentTabbableIndex; if (searchIndex === -1) { searchIndex = (direction === 1) ? 0 : itemCount - 1; if (!isNavigable(searchIndex)) { let initialSearch = searchIndex; do { searchIndex = (searchIndex + direction + itemCount) % itemCount; } while (!isNavigable(searchIndex) && searchIndex !== initialSearch); if (!isNavigable(searchIndex)) searchIndex = -1; } } else { let initialSearch = searchIndex; do { searchIndex = (searchIndex + direction + itemCount) % itemCount; } while (!isNavigable(searchIndex) && searchIndex !== initialSearch); if (!isNavigable(searchIndex)) searchIndex = isNavigable(currentTabbableIndex) ? currentTabbableIndex : -1; } this._setFocus(searchIndex); }
+            
+            /** Navigates to the first activatable menu item. @private */
+            navigateToFirst() { const idx = this.buttonsData.findIndex(b => b.element && !b.isSeparator && !b.disabled); this._setFocus(idx); }
+            
+            /** Navigates to the last activatable menu item. @private */
+            navigateToLast() { let idx = -1; for (let i = this.buttonsData.length - 1; i >= 0; i--) { const bd = this.buttonsData[i]; if (bd.element && !bd.isSeparator && !bd.disabled) { idx = i; break; } } this._setFocus(idx); }
+            
+            /**
+             * Sets roving tabindex and focus to a menu item.
+             * @param {number} newIndex - Index of the item to focus.
+             * @private
+             */
+            _setFocus(newIndex) { 
+                // console.log(`RTSMenu: Attempting to set focus to index ${newIndex}. Current focusedIndex: ${this.focusedIndex}`);
+                if (this.focusedIndex !== -1 && this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex] && this.buttonsData[this.focusedIndex].element) { 
+                    this.buttonsData[this.focusedIndex].element.setAttribute('tabindex', '-1'); 
+                } 
+                this.focusedIndex = newIndex; 
+                if (this.focusedIndex !== -1 && this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex] && this.buttonsData[this.focusedIndex].element) { 
+                    const targetButton = this.buttonsData[this.focusedIndex].element; 
+                    if (targetButton) { 
+                        targetButton.setAttribute('tabindex', '0'); 
+                        targetButton.focus({ preventScroll: true }); 
+                        targetButton.scrollIntoView({ block: 'nearest', inline: 'nearest' }); 
+                        console.log(`RTSMenu: Focus successfully set to index ${this.focusedIndex}, label: "${this.buttonsData[this.focusedIndex]?.label}"`);
+                    } 
+                } else if (newIndex === -1 || !(this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex])) {
+                    if (this.focusedIndex === -1 || newIndex === -1) {
+                       console.log(`RTSMenu: Focus cleared or attempt to focus invalid index ${newIndex}. Final focusedIndex: -1`);
+                    }
+                    this.focusedIndex = -1; 
+                }
+            }
+
+            /**
+             * Activates the currently focused menu item (e.g., on Enter/Space).
+             * Handles standard items, checkboxes, and radio buttons.
+             * @private
+             */
+            activateFocusedItem() { 
+                const focusedElement = document.activeElement; 
+                const focusedBtnData = this.buttonsData.find(bd => bd.element === focusedElement); 
+                
+                if (!focusedBtnData || focusedBtnData.disabled) return;
+
+                const itemType = focusedBtnData.options?.type;
+                if (itemType === 'checkbox' || itemType === 'radio') {
+                    const oldCheckedState = focusedBtnData.options.checked;
+                    const stateActuallyChanged = this._toggleCheckableItem(focusedBtnData);
+                    if (typeof focusedBtnData.callback === 'function') {
+                        if (itemType === 'checkbox' || stateActuallyChanged) { 
+                            focusedBtnData.callback(focusedBtnData.options.checked, focusedBtnData);
+                        }
+                    }
+                    this._clearSearchState(null);
+                } else if (this._canActivateItem(focusedBtnData)) { 
+                    console.log(`RTSMenu: Activated "${focusedBtnData.label}" via Enter/Space`); 
+                    this._executeCallback(focusedBtnData); 
+                } else { 
+                     console.log(`RTSMenu: Attempted to activate non-standard/non-activatable item: "${focusedBtnData?.label}"`); 
+                }
+            }
+
+            /**
+             * Toggles the state of a checkbox or radio button item.
+             * @param {object} buttonData - The data object for the item.
+             * @returns {boolean} True if the state of the item was changed, false otherwise.
+             * @private
+             */
+            _toggleCheckableItem(buttonData) {
+                const options = buttonData.options;
+                let stateChanged = false;
+                if (options.type === 'checkbox') {
+                    options.checked = !options.checked;
+                    buttonData.element.setAttribute('aria-checked', String(options.checked));
+                    stateChanged = true;
+                } else if (options.type === 'radio') {
+                    if (!options.checked) { 
+                        options.checked = true;
+                        buttonData.element.setAttribute('aria-checked', 'true');
+                        stateChanged = true;
+                        // Uncheck other radio buttons in the same group
+                        this.buttonsData.forEach(item => {
+                            if (item !== buttonData && 
+                                item.options?.type === 'radio' && 
+                                item.options?.radioGroup === options.radioGroup &&
+                                item.options?.checked) { 
+                                item.options.checked = false;
+                                item.element.setAttribute('aria-checked', 'false');
+                            }
+                        });
+                    }
+                }
+                if(stateChanged) console.log(`RTSMenu: Toggled ${options.type} "${buttonData.label}" to ${options.checked}`);
+                return stateChanged; 
+            }
+
+            /**
+             * Executes the callback for a standard menu item or opens a submenu.
+             * @param {object} buttonData - The data object for the item.
+             * @private
+             */
+            _executeCallback(buttonData) { 
+                if (buttonData.options?.opensSubmenu) { buttonData.element.setAttribute('aria-expanded', 'true'); } 
+                const abilityId = buttonData.options?.abilityId; 
+                const cooldownSecs = buttonData.options?.cooldownSeconds; 
+                if(abilityId && cooldownSecs > 0) { this.cooldownManager.start(abilityId, cooldownSecs); this._updateButtonCooldownState(buttonData); } 
+                
+                let callbackResult;
+                if (typeof buttonData.callback === 'function') {
+                     callbackResult = buttonData.callback(); 
+                }
+                
+                this._clearSearchState(null); 
+                if(callbackResult !== true) { 
+                    this.hide(); 
+                }  
+            }
+
+            /** Clears all items from the menu. @public */
+            clear() { this.focusedIndex = -1; this.visualCooldownTimers.forEach(intervalId => clearInterval(intervalId)); this.visualCooldownTimers.clear(); this.buttonsData = []; this.container.innerHTML = ''; this._clearSearchState(null); }
+            
+            /**
+             * Builds the DOM elements for a menu item.
+             * @param {string} label - The text label for the button.
+             * @param {function} callback - The function to execute when the button is activated.
+             * @param {object} [options={}] - Optional parameters for the button.
+             * @returns {{buttonData: object, wrapper: HTMLElement}}
+             * @private
+             */
+            _buildButtonDOM(label, callback, options = {}) { 
+                const { type = 'button', checked = false, radioGroup = null, disabled = false, isBackButton = false, tooltip = null, disabledTooltip = null, cooldownSeconds = 0, abilityId = null, iconSrc = null, costText = null, isCostInsufficient = false, hotkey = null, opensSubmenu = false } = options; 
+                if (cooldownSeconds > 0 && !abilityId) { console.warn(`RTSMenu Warning: Button "${label}" has cooldownSeconds but no abilityId.`); } 
+                const initiallyOnCooldown = abilityId ? this.cooldownManager.isOnCooldown(abilityId) : false; 
+                const isActuallyDisabled = disabled || isCostInsufficient || initiallyOnCooldown; 
+                
+                const wrapper = document.createElement('div'); 
+                wrapper.classList.add('rtsmenu-button-wrapper'); 
+                
+                const buttonElement = document.createElement('button'); 
+                buttonElement.setAttribute('tabindex', '-1'); 
+
+                let itemRole = 'menuitem';
+                if (type === 'checkbox') itemRole = 'menuitemcheckbox';
+                else if (type === 'radio') itemRole = 'menuitemradio';
+                buttonElement.setAttribute('role', itemRole);
+
+                if (type === 'checkbox' || type === 'radio') {
+                    buttonElement.setAttribute('aria-checked', String(checked));
+                }
+
+                if (isActuallyDisabled) { buttonElement.setAttribute('aria-disabled', 'true'); buttonElement.disabled = true; } 
+                if (hotkey) { buttonElement.setAttribute('aria-keyshortcuts', hotkey); } 
+                if (opensSubmenu) { buttonElement.setAttribute('aria-haspopup', 'true'); buttonElement.setAttribute('aria-expanded', 'false'); } 
+
+                // Add indicator span for checkable items, placed before icon/label
+                if (type === 'checkbox' || type === 'radio') {
+                    const indicatorSpan = document.createElement('span');
+                    indicatorSpan.classList.add('rtsmenu-item-indicator');
+                    indicatorSpan.setAttribute('aria-hidden', 'true'); 
+                    buttonElement.appendChild(indicatorSpan);
+                }
+
+                if (iconSrc) { const img = document.createElement('img'); img.src = iconSrc; img.classList.add('rtsmenu-button-icon'); img.alt = ''; buttonElement.appendChild(img); } 
+                const labelSpan = document.createElement('span'); labelSpan.classList.add('rtsmenu-button-label'); labelSpan.textContent = label; buttonElement.appendChild(labelSpan); 
+                if (costText) { const span = document.createElement('span'); span.classList.add('rtsmenu-button-cost'); if (isCostInsufficient) span.classList.add('cost-insufficient'); span.textContent = costText; buttonElement.appendChild(span); } 
+                if (hotkey && !isBackButton) { const hotkeySpan = document.createElement('span'); hotkeySpan.classList.add('rtsmenu-button-hotkey'); hotkeySpan.textContent = `(${hotkey.toUpperCase()})`; wrapper.appendChild(hotkeySpan); } 
+                if(isBackButton) buttonElement.classList.add('rtsmenu-back-button'); 
+                
+                const mergedOptions = { ...options, type, checked, radioGroup, abilityId, cooldownSeconds, disabled: isActuallyDisabled, disabledOriginal: disabled, opensSubmenu, iconSrc, costText, isCostInsufficient, hotkey, tooltip, disabledTooltip }; 
+                const buttonData = { label, callback, disabled: isActuallyDisabled, tooltip, disabledTooltip, element: buttonElement, wrapper, originalLabel: label, isBackButton, hotkey, options: mergedOptions }; 
+                
+                buttonElement.addEventListener('click', (event) => { 
+                    event.stopPropagation(); 
+                    if (buttonData.disabled) return;
+
+                    if (buttonData.options.type === 'checkbox' || buttonData.options.type === 'radio') {
+                        const oldCheckedState = buttonData.options.checked;
+                        const stateActuallyChanged = this._toggleCheckableItem(buttonData);
+                        if (typeof buttonData.callback === 'function') {
+                             if (buttonData.options.type === 'checkbox' || stateActuallyChanged) { // For radio, only call if state actually changed
+                                buttonData.callback(buttonData.options.checked, buttonData);
+                            }
+                        }
+                        this._clearSearchState(null); 
+                    } else if (this._canActivateItem(buttonData) && typeof buttonData.callback === 'function') { 
+                        this._executeCallback(buttonData); 
+                    } else if (buttonData.options?.opensSubmenu && typeof buttonData.callback === 'function') { // Handles submenu items that also have a primary action
+                         this._executeCallback(buttonData);
+                    }
+                     else { 
+                        console.log(`RTSMenu: Clicked non-standard/non-activatable item: ${label}`); 
+                    } 
+                }); 
+                
+                const tooltipContentToUse = (isActuallyDisabled && disabledTooltip) ? disabledTooltip : tooltip; 
+                if (tooltipContentToUse && this.tooltipElement) { 
+                    wrapper.addEventListener('mouseenter', () => { clearTimeout(this.tooltipShowTimeout); this.tooltipShowTimeout = setTimeout(() => { this._showTooltip(wrapper, tooltipContentToUse); }, this.tooltipShowDelay); }); 
+                    wrapper.addEventListener('mouseleave', () => { clearTimeout(this.tooltipShowTimeout); this._hideTooltip(); }); 
+                    buttonElement.addEventListener('focus', () => this._showTooltip(wrapper, tooltipContentToUse)); 
+                    buttonElement.addEventListener('blur', () => this._hideTooltip()); 
+                    if(this.tooltipElement) buttonElement.setAttribute('aria-describedby', this.tooltipElement.id); 
+                } 
+                wrapper.insertBefore(buttonElement, wrapper.firstChild); 
+                return {buttonData, wrapper}; 
+            }
+
+            /**
+             * Adds a new button to the menu.
+             * @param {string} label - The text label for the button.
+             * @param {function} callback - The function to execute when the button is activated.
+             * @param {object} [options={}] - Optional parameters: type ('button'|'checkbox'|'radio'), checked (boolean), radioGroup (string), disabled (boolean), isBackButton (boolean), tooltip (string), disabledTooltip (string), cooldownSeconds (number), abilityId (string), iconSrc (string), costText (string), isCostInsufficient (boolean), hotkey (string), opensSubmenu (boolean).
+             * @public
+             */
+            addButton(label, callback, options = {}) { const {buttonData, wrapper} = this._buildButtonDOM(label, callback, options); this.buttonsData.push(buttonData); this.container.appendChild(wrapper); if(buttonData.options?.abilityId && this.cooldownManager.isOnCooldown(buttonData.options.abilityId)) { this._updateButtonCooldownState(buttonData); } }
+            
+            /** Shows the global tooltip. @private */
+            _showTooltip(targetWrapper, tooltipContent) { if (!this.tooltipElement || !tooltipContent) return; clearTimeout(this.tooltipHideTimeout); this.activeTooltipTarget = targetWrapper; if (/<[a-z][\s\S]*>/i.test(tooltipContent)) { this.tooltipElement.innerHTML = tooltipContent; } else { this.tooltipElement.textContent = tooltipContent; } if (this.tooltipElement.parentNode !== document.body) { document.body.appendChild(this.tooltipElement); } this.tooltipElement.style.visibility = 'hidden'; this.tooltipElement.style.opacity = '1'; this.tooltipElement.style.left = '0px'; this.tooltipElement.style.top = '0px'; const targetRect = targetWrapper.getBoundingClientRect(); const ttRect = this.tooltipElement.getBoundingClientRect(); this.tooltipElement.style.opacity = '0'; const viewportWidth = window.innerWidth; const viewportHeight = window.innerHeight; const margin = 10; let ttTop, ttLeft; const positionsToTry = ['above', 'below', 'right', 'left']; let bestFit = null; for (const pos of positionsToTry) { switch (pos) { case 'above': ttTop = targetRect.top - ttRect.height - margin; ttLeft = targetRect.left + (targetRect.width / 2) - (ttRect.width / 2); break; case 'below': ttTop = targetRect.bottom + margin; ttLeft = targetRect.left + (targetRect.width / 2) - (ttRect.width / 2); break; case 'right': ttTop = targetRect.top + (targetRect.height / 2) - (ttRect.height / 2); ttLeft = targetRect.right + margin; break; case 'left': ttTop = targetRect.top + (targetRect.height / 2) - (ttRect.height / 2); ttLeft = targetRect.left - ttRect.width - margin; break; } if (ttLeft < margin) ttLeft = margin; if (ttLeft + ttRect.width > viewportWidth - margin) ttLeft = viewportWidth - ttRect.width - margin; if (ttTop < margin) ttTop = margin; if (ttTop + ttRect.height > viewportHeight - margin) ttTop = viewportHeight - ttRect.height - margin; if (ttTop >= margin && ttLeft >= margin && ttTop + ttRect.height <= viewportHeight - margin && ttLeft + ttRect.width <= viewportWidth - margin) { bestFit = { top: ttTop, left: ttLeft }; break; } if (!bestFit) { bestFit = {top: ttTop, left: ttLeft}; }} this.tooltipElement.style.top = `${bestFit.top}px`; this.tooltipElement.style.left = `${bestFit.left}px`; this.tooltipElement.style.visibility = 'visible'; this.tooltipElement.style.opacity = '1'; this.tooltipElement.setAttribute('aria-hidden', 'false'); }
+            
+            /** Hides the global tooltip. @private */
+            _hideTooltip() { clearTimeout(this.tooltipShowTimeout); this.activeTooltipTarget = null; this.tooltipHideTimeout = setTimeout(() => { if (this.tooltipElement && !this.activeTooltipTarget) { this.tooltipElement.style.opacity = '0'; const transitionDuration = parseFloat(getComputedStyle(this.tooltipElement).transitionDuration) * 1000 || 150; setTimeout(() => { if(this.tooltipElement.style.opacity === '0') { this.tooltipElement.style.visibility = 'hidden'; this.tooltipElement.setAttribute('aria-hidden', 'true'); this.tooltipElement.style.left = '-9999px'; this.tooltipElement.style.top = '-9999px'; }}, transitionDuration); } }, 50); }
+            
+            /** Adds a separator line to the menu. @public */
+            addSeparator() { const sep = document.createElement('div'); sep.classList.add('rtsmenu-separator'); sep.setAttribute('role', 'separator'); this.container.appendChild(sep); this.buttonsData.push({isSeparator: true, wrapper: sep }); }
+            
+            /** Updates the visual state of a button with a cooldown. @private */
+            _updateButtonCooldownState(buttonData) { const abilityId = buttonData.options?.abilityId; if (!abilityId || !buttonData.element || !buttonData.wrapper) return; const remainingSeconds = this.cooldownManager.getRemainingSeconds(abilityId); const isOnCd = remainingSeconds > 0; const baseDisabled = (buttonData.options?.disabledOriginal ?? false) || (buttonData.options?.isCostInsufficient ?? false); buttonData.disabled = baseDisabled || isOnCd; buttonData.element.disabled = buttonData.disabled; if (buttonData.disabled) { buttonData.element.setAttribute('aria-disabled', 'true'); } else { buttonData.element.removeAttribute('aria-disabled'); } let ov = buttonData.wrapper.querySelector('.rtsmenu-button-cooldown-timer'); if (isOnCd) { if (!ov) { ov = document.createElement('div'); ov.classList.add('rtsmenu-button-cooldown-timer'); buttonData.wrapper.appendChild(ov); } ov.style.display = 'flex'; ov.textContent = `${remainingSeconds.toFixed(1)}s`; if (!this.visualCooldownTimers.has(abilityId)) { const intervalId = setInterval(() => { const currentBtnData = this.buttonsData.find(bd => bd.options?.abilityId === abilityId && bd.element === buttonData.element); if (!currentBtnData || !this.isVisible) { clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); return; } const currentRemaining = this.cooldownManager.getRemainingSeconds(abilityId); const currentOv = currentBtnData.wrapper?.querySelector('.rtsmenu-button-cooldown-timer'); if (currentRemaining > 0 && currentOv) { currentOv.textContent = `${currentRemaining.toFixed(1)}s`; if (!currentBtnData.element.disabled) { currentBtnData.disabled = true; currentBtnData.element.disabled = true; currentBtnData.element.setAttribute('aria-disabled', 'true'); } } else { if (currentOv) currentOv.style.display = 'none'; const originallyDisabled = (currentBtnData.options?.disabledOriginal ?? false) || (currentBtnData.options?.isCostInsufficient ?? false); if(!originallyDisabled) { currentBtnData.disabled = false; currentBtnData.element.disabled = false; currentBtnData.element.removeAttribute('aria-disabled'); } clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); } }, 100); this.visualCooldownTimers.set(abilityId, intervalId); } } else { if (ov) ov.style.display = 'none'; if (this.visualCooldownTimers.has(abilityId)) { clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); } const originallyDisabled = (buttonData.options?.disabledOriginal ?? false) || (buttonData.options?.isCostInsufficient ?? false); if(!originallyDisabled) { buttonData.disabled = false; buttonData.element.disabled = false; buttonData.element.removeAttribute('aria-disabled'); } } }
+            
+            /**
+             * Shows the root menu.
+             * @param {HTMLElement|{x: number, y: number}} targetOrPosition - The element or coordinates to anchor the menu to.
+             * @param {function} builderFn - A function that populates the menu with items using `addButton`, `addSeparator`.
+             * @param {HTMLElement|null} [triggerEl=null] - The element that triggered the menu, for focus restoration.
+             * @public
+             */
+            showRoot(targetOrPosition, builderFn, triggerEl = null) { 
+                this.focusedIndex = -1; 
+                this.menuStateStack = []; 
+                this.triggerElementForCurrentSequence = triggerEl || (document.activeElement instanceof HTMLElement && typeof document.activeElement.focus === 'function' && document.activeElement !== document.body ? document.activeElement : null);
+                this._clearSearchState(null);
+                if (targetOrPosition instanceof HTMLElement) {
+                    this.currentSequenceAnchor = targetOrPosition; 
+                } else if (typeof targetOrPosition === 'object' && 'x' in targetOrPosition && 'y' in targetOrPosition) {
+                    this.currentSequenceAnchor = { x: targetOrPosition.x, y: targetOrPosition.y }; 
+                } else {
+                     this.currentSequenceAnchor = {x:0, y:0}; 
+                     console.warn("RTSMenu: showRoot called with invalid targetOrPosition for anchor; defaulting to (0,0).");
+                }
+                this.show(this.currentSequenceAnchor, builderFn, null); 
+            }
+            
+            /**
+             * Shows a menu or submenu.
+             * @param {HTMLElement|{x: number, y: number}} targetOrPosition - The element or coordinates to anchor this specific menu view to.
+             * @param {function} builderFn - Function to populate this menu view.
+             * @param {number|null} [indexToFocusInThisMenu=null] - Index of item to focus upon showing (e.g., after returning from submenu).
+             * @public
+             */
+            show(targetOrPosition, builderFn, indexToFocusInThisMenu = null) { 
+                this.currentBuilderFn = builderFn; 
+                this.clear(); 
+                this.nextItemId = 0; 
+                const anchorForThisView = targetOrPosition || this.currentSequenceAnchor || {x:0,y:0};
+
+                if (typeof builderFn === 'function') builderFn(); else { console.error("RTSMenu Error: show() requires builder."); this.hide(); return; } 
+                const menuItems = this.buttonsData.filter(b => b.element && !b.isSeparator); if (menuItems.length === 0) { this.hide(); return; } 
+                this.container.style.maxHeight = ''; this.container.style.overflowY = ''; 
+                this.container.style.visibility = 'hidden'; this.container.style.display = 'block'; this.container.style.opacity = '0'; 
+                const menuActualHeight = this.container.scrollHeight; const viewportHeight = window.innerHeight; const maxMenuHeight = viewportHeight * 0.85; 
+                if (menuActualHeight > maxMenuHeight) { this.container.style.maxHeight = `${maxMenuHeight}px`; this.container.style.overflowY = 'auto'; } 
+                const menuRect = this.container.getBoundingClientRect(); const menuWidth = menuRect.width; const menuHeight = menuRect.height; let idealX, idealY; const vpW = window.innerWidth; const vpH = window.innerHeight; const sX = window.pageXOffset; const sY = window.pageYOffset; const m = 5; 
+                
+                if (anchorForThisView instanceof HTMLElement) { const tR = anchorForThisView.getBoundingClientRect(); idealX = tR.right + sX + m; idealY = tR.top + sY; /* Align top of submenu with top of parent item usually */ if (idealX + menuWidth > vpW + sX - m) { idealX = tR.left + sX - menuWidth - m; /* Flip to left */ } if (idealY + menuHeight > vpH + sY - m) { idealY = vpH + sY - menuHeight - m; /* Adjust upwards if too low */ } if (idealX < sX + m) idealX = sX + m; if (idealY < sY + m) idealY = sY + m; } 
+                else if (typeof anchorForThisView === 'object' && 'x' in anchorForThisView && 'y' in anchorForThisView) { idealX = anchorForThisView.x; idealY = anchorForThisView.y; if (idealX + menuWidth > vpW + sX - m) idealX = vpW + sX - menuWidth - m; if (idealY + menuHeight > vpH + sY - m) idealY = vpH + sY - menuHeight - m; if (idealX < sX + m) idealX = sX + m; if (idealY < sY + m) idealY = sY + m; } 
+                else { console.error("RTSMenu Error: show() needs valid anchor for positioning."); this.hide(); return; } 
+                
+                this.container.style.left = `${Math.max(sX + m, idealX)}px`; this.container.style.top = `${Math.max(sY + m, idealY)}px`; 
+                this.isVisible = true; this.container.style.visibility = 'visible'; this.container.style.opacity = '1'; 
+                this.buttonsData.forEach(bd => { if(bd.options?.abilityId) this._updateButtonCooldownState(bd); });
+                
+                if (indexToFocusInThisMenu !== null && indexToFocusInThisMenu >= 0 && indexToFocusInThisMenu < this.buttonsData.length && this.buttonsData[indexToFocusInThisMenu].element) { const itemToFocusData = this.buttonsData[indexToFocusInThisMenu]; this._setFocus(indexToFocusInThisMenu); if (itemToFocusData.element.hasAttribute('aria-expanded')) { itemToFocusData.element.setAttribute('aria-expanded', 'false'); } } 
+                else { this.navigateToFirst(); }
+            }
+
+            /** Hides the menu and cleans up state. @public */
+            hide() { if (!this.isVisible) return; this._hideTooltip(); const elementToRestoreFocus = this.triggerElementForCurrentSequence; this.focusedIndex = -1; this.visualCooldownTimers.forEach(intervalId => clearInterval(intervalId)); this.visualCooldownTimers.clear(); this.container.style.display = 'none'; this.container.style.opacity = '0'; this.isVisible = false; if (elementToRestoreFocus && typeof elementToRestoreFocus.focus === 'function') { if (document.body.contains(elementToRestoreFocus) && (elementToRestoreFocus.offsetWidth > 0 || elementToRestoreFocus.offsetHeight > 0 || elementToRestoreFocus.getClientRects().length > 0)) { if (elementToRestoreFocus !== document.body || (this.lastContextMenuTargetIsBody === false && this.triggerElementForCurrentSequence === document.body)) { elementToRestoreFocus.focus(); } } } this.triggerElementForCurrentSequence = null; this.lastContextMenuTargetIsBody = null; this.currentSequenceAnchor = null; this._clearSearchState(null); }
+            
+            /**
+             * Opens a submenu.
+             * @param {function} submenuBuilderFn - Function to populate the submenu.
+             * @public
+             */
+            openSubmenu(submenuBuilderFn) { 
+                 if(!this.currentBuilderFn) return; 
+                 const currentFocusedItemIndex = this.focusedIndex; 
+                 const triggerItemData = (currentFocusedItemIndex !== -1 && this.buttonsData[currentFocusedItemIndex]) ? this.buttonsData[currentFocusedItemIndex] : null;
+                 this._clearSearchState(null);
+                 let submenuAnchorTarget = this.currentSequenceAnchor; 
+                 if(triggerItemData && triggerItemData.wrapper) { 
+                     triggerItemData.element.setAttribute('aria-expanded', 'true'); 
+                     const triggerWrapperRect = triggerItemData.wrapper.getBoundingClientRect();
+                     submenuAnchorTarget = { 
+                         x: triggerWrapperRect.right + window.pageXOffset + 2, 
+                         y: triggerWrapperRect.top + window.pageYOffset // Align top of submenu with top of parent item
+                     };
+                 } 
+                 
+                 this.menuStateStack.push({ 
+                     builder: this.currentBuilderFn, 
+                     triggerItemIndexInParent: currentFocusedItemIndex, 
+                     overallTriggerElement: this.triggerElementForCurrentSequence,
+                     parentAnchor: this.currentSequenceAnchor 
+                 }); 
+                 this.show(submenuAnchorTarget, submenuBuilderFn, null); 
+            }
+
+            /** Adds a "Back" button to navigate to the parent menu, if applicable. @public */
+            addBackButton() { 
+                if(this.menuStateStack.length > 0){ 
+                    this.addButton("Back", () => { 
+                        const parentState = this.menuStateStack.pop(); 
+                        if(parentState && parentState.builder){ 
+                             this.triggerElementForCurrentSequence = parentState.overallTriggerElement;
+                             this.currentSequenceAnchor = parentState.parentAnchor; 
+                             this.show(this.currentSequenceAnchor, parentState.builder, parentState.triggerItemIndexInParent); 
+                             return true;
+                        }
+                    }, {isBackButton:true, tooltip:"Go back", iconSrc:ICONS.BACK });
+                }
+            }
+            
+            /**
+             * Adds a menu item at a specific index.
+             * @param {number} index - The index at which to insert the item.
+             * @param {string} label - The text label for the button.
+             * @param {function} callback - The function to execute on activation.
+             * @param {object} [options={}] - Optional parameters.
+             * @returns {boolean} True if successful, false otherwise.
+             * @public
+             */
+            addItemAt(index, label, callback, options = {}) { if (!this.isVisible) { console.warn("RTSMenu: Cannot add item when menu is not visible."); return false; } if (typeof index !== 'number' || index < 0 || index > this.buttonsData.length) { console.error(`RTSMenu Error: addItemAt index ${index} out of bounds (0-${this.buttonsData.length}).`); return false; } const {buttonData, wrapper: newWrapperElement} = this._buildButtonDOM(label, callback, options); if (!buttonData || !newWrapperElement) { console.error("RTSMenu Error: Failed to build DOM for new item in addItemAt."); return false; } if (index === this.buttonsData.length) { this.container.appendChild(newWrapperElement); this.buttonsData.push(buttonData); } else { const existingItem = this.buttonsData[index]; const referenceNode = existingItem?.wrapper || null; this.container.insertBefore(newWrapperElement, referenceNode); this.buttonsData.splice(index, 0, buttonData); } const currentFocusedElement = document.activeElement; let oldFocusedIndex = this.buttonsData.findIndex(bd => bd.element === currentFocusedElement && bd.element !== buttonData.element); if (oldFocusedIndex !== -1 && index <= oldFocusedIndex) { this.focusedIndex = oldFocusedIndex + 1; } else if (this.focusedIndex !== -1 && index <= this.focusedIndex) { this.focusedIndex++; } if (buttonData.element && !buttonData.disabled) { this._setFocus(index); } else if (this.focusedIndex !== -1) { if (this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex].element && !this.buttonsData[this.focusedIndex].isSeparator && !this.buttonsData[this.focusedIndex].disabled) { this._setFocus(this.focusedIndex); } else { this.navigateToFirst(); } } else { this.navigateToFirst(); } this._checkAndApplyScrollability(); if(buttonData.options?.abilityId && this.cooldownManager.isOnCooldown(buttonData.options.abilityId)) { this._updateButtonCooldownState(buttonData); } console.log(`RTSMenu: Added item "${label}" at index ${index}.`); return true; }
+            
+            /**
+             * Removes a menu item from a specific index.
+             * @param {number} index - The index of the item to remove.
+             * @returns {boolean} True if successful, false otherwise.
+             * @public
+             */
+            removeItemAt(index) { if (!this.isVisible) { console.warn("RTSMenu: Cannot remove item when menu is not visible."); return false; } if (typeof index !== 'number' || index < 0 || index >= this.buttonsData.length) { console.error(`RTSMenu Error: removeItemAt index ${index} is out of bounds.`); return false; } const removedItemData = this.buttonsData[index]; if (removedItemData && removedItemData.wrapper) { if(removedItemData.options?.abilityId && this.visualCooldownTimers.has(removedItemData.options.abilityId)) { clearInterval(this.visualCooldownTimers.get(removedItemData.options.abilityId)); this.visualCooldownTimers.delete(removedItemData.options.abilityId); } removedItemData.wrapper.remove(); } this.buttonsData.splice(index, 1); console.log(`RTSMenu: Removed item at index ${index}. Label: "${removedItemData?.label}"`); if (this.buttonsData.length === 0) { this._setFocus(-1); this.hide(); } else if (this.focusedIndex === index) { const newFocusCandidateIndex = Math.min(index, this.buttonsData.length - 1); this._setFocus(newFocusCandidateIndex); if(this.focusedIndex === -1 || (this.buttonsData[this.focusedIndex] && (this.buttonsData[this.focusedIndex].isSeparator || this.buttonsData[this.focusedIndex].disabled)) ) { this.navigateToFirst(); } } else if (this.focusedIndex > index) { this._setFocus(this.focusedIndex - 1); } else if (this.focusedIndex !== -1) { this._setFocus(this.focusedIndex); } this._checkAndApplyScrollability(); return true; }
+            
+            /**
+             * Updates an existing menu item at a specific index.
+             * @param {number} index - The index of the item to update.
+             * @param {string} newLabel - The new label for the item.
+             * @param {object} [newOptions={}] - New options to apply to the item.
+             * @returns {boolean} True if successful, false otherwise.
+             * @public
+             */
+            updateItemAt(index, newLabel, newOptions = {}) { 
+                if (!this.isVisible) { console.warn("RTSMenu: Cannot update item when menu is not visible."); return false; } 
+                if (typeof index !== 'number' || index < 0 || index >= this.buttonsData.length) { console.error(`RTSMenu Error: updateItemAt index ${index} out of bounds.`); return false; } 
+                const currentItemData = this.buttonsData[index]; 
+                if (currentItemData.isSeparator) { console.error(`RTSMenu Error: Cannot update a separator at index ${index}.`); return false; } 
+                
+                const currentElement = currentItemData.element; 
+                const currentWrapper = currentItemData.wrapper; 
+                const baseOptions = currentItemData.options || {}; 
+                
+                const preservedTypeOptions = {
+                    type: baseOptions.type,
+                    checked: baseOptions.checked,
+                    radioGroup: baseOptions.radioGroup,
+                };
+                const updatedOptions = { ...baseOptions, ...newOptions }; 
+                updatedOptions.type = newOptions.type !== undefined ? newOptions.type : preservedTypeOptions.type || 'button';
+                updatedOptions.checked = newOptions.checked !== undefined ? newOptions.checked : preservedTypeOptions.checked || false;
+                if (updatedOptions.type === 'radio') {
+                    updatedOptions.radioGroup = newOptions.radioGroup !== undefined ? newOptions.radioGroup : preservedTypeOptions.radioGroup || null;
+                } else {
+                    delete updatedOptions.radioGroup; 
+                }
+
+                const baseDisabled = newOptions.disabled !== undefined ? newOptions.disabled : (baseOptions.disabledOriginal ?? false); 
+                const costInsufficient = newOptions.isCostInsufficient !== undefined ? newOptions.isCostInsufficient : (baseOptions.isCostInsufficient ?? false); 
+                const currentAbilityId = updatedOptions.abilityId; 
+                const onCooldown = currentAbilityId ? this.cooldownManager.isOnCooldown(currentAbilityId) : false; 
+                const finalDisabledState = baseDisabled || costInsufficient || onCooldown; 
+                
+                currentItemData.label = newLabel; 
+                currentItemData.originalLabel = newLabel; 
+                if (newOptions.callback !== undefined) currentItemData.callback = newOptions.callback; 
+                currentItemData.hotkey = newOptions.hotkey !== undefined ? newOptions.hotkey : currentItemData.hotkey; 
+                currentItemData.tooltip = newOptions.tooltip !== undefined ? newOptions.tooltip : currentItemData.tooltip; 
+                currentItemData.disabledTooltip = newOptions.disabledTooltip !== undefined ? newOptions.disabledTooltip : currentItemData.disabledTooltip; 
+                currentItemData.disabled = finalDisabledState; 
+                currentItemData.options = { ...updatedOptions, disabled: finalDisabledState, disabledOriginal: baseDisabled, isCostInsufficient: costInsufficient, abilityId: currentAbilityId, cooldownSeconds: updatedOptions.cooldownSeconds !== undefined ? updatedOptions.cooldownSeconds : (baseOptions.cooldownSeconds || 0) }; 
+                
+                const labelSpan = currentElement.querySelector('.rtsmenu-button-label'); 
+                if (labelSpan) labelSpan.textContent = newLabel; 
+                
+                const newType = currentItemData.options.type;
+                const currentRole = currentElement.getAttribute('role');
+                let newRole = 'menuitem';
+                if (newType === 'checkbox') newRole = 'menuitemcheckbox';
+                else if (newType === 'radio') newRole = 'menuitemradio';
+
+                if (currentRole !== newRole) {
+                    currentElement.setAttribute('role', newRole);
+                }
+
+                let indicatorSpan = currentElement.querySelector('.rtsmenu-item-indicator');
+                if (newType === 'checkbox' || newType === 'radio') {
+                    currentElement.setAttribute('aria-checked', String(currentItemData.options.checked));
+                    if (!indicatorSpan) {
+                        indicatorSpan = document.createElement('span');
+                        indicatorSpan.classList.add('rtsmenu-item-indicator');
+                        indicatorSpan.setAttribute('aria-hidden', 'true');
+                        currentElement.insertBefore(indicatorSpan, currentElement.firstChild); 
+                    }
+                } else {
+                    currentElement.removeAttribute('aria-checked');
+                    if (indicatorSpan) indicatorSpan.remove(); 
+                }
+                
+                let iconImg = currentElement.querySelector('.rtsmenu-button-icon'); 
+                const newIconSrc = currentItemData.options.iconSrc; 
+                if (newIconSrc !== undefined) { 
+                    if(newIconSrc) { 
+                        if (!iconImg) { 
+                            iconImg = document.createElement('img'); 
+                            iconImg.classList.add('rtsmenu-button-icon'); 
+                            iconImg.alt = ''; 
+                            const refNodeForIcon = indicatorSpan ? indicatorSpan.nextSibling : (labelSpan || currentElement.firstChild);
+                            currentElement.insertBefore(iconImg, refNodeForIcon); 
+                        } 
+                        iconImg.src = newIconSrc; 
+                    } else if (iconImg) { iconImg.remove(); } 
+                } 
+
+                let costSpan = currentElement.querySelector('.rtsmenu-button-cost'); 
+                const newCostText = currentItemData.options.costText; 
+                if (newCostText !== undefined) { if(newCostText) { if(!costSpan) { costSpan = document.createElement('span'); costSpan.classList.add('rtsmenu-button-cost'); currentElement.appendChild(costSpan); } costSpan.textContent = newCostText; } else if (costSpan) { costSpan.remove(); } } if (costSpan) { costSpan.classList.toggle('cost-insufficient', currentItemData.options.isCostInsufficient); } 
+                let hotkeySpanWrapper = currentWrapper.querySelector('.rtsmenu-button-hotkey'); 
+                const displayHotkey = currentItemData.hotkey; 
+                if (displayHotkey && !currentItemData.isBackButton) { if (!hotkeySpanWrapper) { hotkeySpanWrapper = document.createElement('span'); hotkeySpanWrapper.classList.add('rtsmenu-button-hotkey'); currentWrapper.appendChild(hotkeySpanWrapper); } hotkeySpanWrapper.textContent = `(${displayHotkey.toUpperCase()})`; } else if (hotkeySpanWrapper) { hotkeySpanWrapper.remove(); } 
+                
+                currentElement.disabled = finalDisabledState; 
+                if (finalDisabledState) { currentElement.setAttribute('aria-disabled', 'true'); } else { currentElement.removeAttribute('aria-disabled'); } 
+                const currentOpensSubmenu = currentItemData.options.opensSubmenu; 
+                if (currentOpensSubmenu !== undefined) { if (currentOpensSubmenu) { currentElement.setAttribute('aria-haspopup', 'true'); if(newOptions.opensSubmenu !== undefined || baseOptions.opensSubmenu === undefined ) currentElement.setAttribute('aria-expanded', 'false');} else { currentElement.removeAttribute('aria-haspopup'); currentElement.removeAttribute('aria-expanded'); } } 
+                if (displayHotkey) currentElement.setAttribute('aria-keyshortcuts', displayHotkey); else currentElement.removeAttribute('aria-keyshortcuts');
+                
+                const effectiveTooltipText = (currentItemData.disabled && currentItemData.disabledTooltip) ? currentItemData.disabledTooltip : currentItemData.tooltip;
+                if (effectiveTooltipText && this.tooltipElement) {
+                    currentElement.setAttribute('aria-describedby', this.tooltipElement.id);
+                } else {
+                    currentElement.removeAttribute('aria-describedby');
+                }
+
+                if (currentItemData.options.abilityId) { this._updateButtonCooldownState(currentItemData); } if (finalDisabledState && this.focusedIndex === index) { this.navigateToFirst(); } this._checkAndApplyScrollability(); console.log(`RTSMenu: Updated item at index ${index} to "${newLabel}".`); return true; 
+            }
+            /** Checks and applies scrollability to the menu container if needed. @private */
+            _checkAndApplyScrollability() { if(!this.isVisible && this.container.style.display !== 'block') { this.container.style.visibility = 'hidden'; this.container.style.display = 'block';} const menuActualHeight = this.container.scrollHeight; if(!this.isVisible) { this.container.style.display = 'none'; this.container.style.visibility = '';} if(!this.isVisible) return; const viewportHeight = window.innerHeight; const maxMenuHeightPercentage = 0.85; const maxMenuHeight = viewportHeight * maxMenuHeightPercentage; if (menuActualHeight > maxMenuHeight) { if (this.container.style.maxHeight !== `${maxMenuHeight}px`) { this.container.style.maxHeight = `${maxMenuHeight}px`; } if (this.container.style.overflowY !== 'auto') { this.container.style.overflowY = 'auto'; } } else { if (this.container.style.maxHeight !== '') { this.container.style.maxHeight = ''; } if (this.container.style.overflowY !== '') { this.container.style.overflowY = ''; } } }
+        }
+
+        // --- DEMO APPLICATION SETUP ---
+        const rtsMenu = new RTSMenu('rtsmenu-container', globalCooldownManager); 
+        const buildMainMenu = () => { 
+            rtsMenu.addButton("File", () => { /* opens submenu */ }, { iconSrc: ICONS.SAVE, hotkey: 'F1', opensSubmenu: true, callback: () => {rtsMenu.openSubmenu(buildFileMenu); return true;}, tooltip: "Access <strong>File</strong> options. (F1)" });  
+            rtsMenu.addButton("Edit", () => { console.log("Edit clicked (but disabled)"); }, { iconSrc: ICONS.TOOL, hotkey: 'E', disabled: true, tooltip: "Editing not available." }); 
+            rtsMenu.addSeparator();
+            rtsMenu.addButton("Enable Feature X", (newState) => { console.log("Feature X state:", newState); document.getElementById('demo-feature-x-status').textContent = `Feature X: ${newState ? 'Enabled' : 'Disabled'}`; }, { type: 'checkbox', checked: false, tooltip: "Toggle Feature X", hotkey:'X' });
+            rtsMenu.addButton("Enable Feature Y", (newState) => { console.log("Feature Y state:", newState); }, { type: 'checkbox', checked: true, tooltip: "Toggle Feature Y (starts checked)" });
+            rtsMenu.addSeparator();
+            rtsMenu.addButton("Option Alpha (Group 1)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group1', checked: true});
+            rtsMenu.addButton("Option Beta (Group 1)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group1'});
+            rtsMenu.addSeparator();
+            rtsMenu.addButton("Setting One (Group 2)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group2'});
+            rtsMenu.addButton("Setting Two (Group 2)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group2', checked: true});
+            rtsMenu.addSeparator();
+            rtsMenu.addButton("Action With Cooldown", () => { console.log("RTSMenu Action: Cooldown Triggered!"); }, { tooltip: "This action has a 5s cooldown.", cooldownSeconds: 5, abilityId: 'globalSpecialAbility', iconSrc: ICONS.ACTION, hotkey: 'C' }); 
+            rtsMenu.addSeparator(); 
+            rtsMenu.addButton("Help...", () => { /* opens submenu */ return true; }, { iconSrc: ICONS.INFO, hotkey: 'F2', opensSubmenu: true, callback: () => {rtsMenu.openSubmenu(buildHelpMenu); return true;}, tooltip: "Get help. (F2)" }); 
+        };
+        const buildFileMenu = () => { rtsMenu.addBackButton(); rtsMenu.addButton("New", () => console.log("RTSMenu Action: New"), { iconSrc: ICONS.ADD, hotkey: 'N', tooltip: "Create a <em>new</em> document."}); rtsMenu.addButton("Open", () => console.log("RTSMenu Action: Open"), { iconSrc: ICONS.LOAD, hotkey: 'O', tooltip: "Open an existing document."}); rtsMenu.addButton("Save", () => console.log("RTSMenu Action: Save"), { iconSrc: ICONS.SAVE, hotkey: 'S', tooltip: "Save current progress."}); rtsMenu.addSeparator(); rtsMenu.addButton("Exit", () => console.log("RTSMenu Action: Exit"), { iconSrc: ICONS.QUIT, hotkey: 'Q', tooltip: "Exit the application."}); }; 
+        const buildHelpMenu = () => { rtsMenu.addBackButton(); rtsMenu.addButton("About RTSMenu", () => console.log("RTSMenu: Displaying 'About' information..."), { iconSrc: ICONS.INFO, tooltip: "Show <strong>About</strong> dialog." }); rtsMenu.addButton("View Tutorial", () => console.log("RTSMenu: Starting tutorial sequence..."), { iconSrc: ICONS.SETTINGS, tooltip: "Start the interactive tutorial." }); };
+        const buildContextMenu = () => { rtsMenu.addButton("Command 1", () => console.log("RTSMenu Context Action: Command 1"), { iconSrc: ICONS.CMD, hotkey: '1', tooltip: "Execute <em>Command One</em> from context"}); rtsMenu.addButton("Command 2 (Disabled)", () => {}, { iconSrc: ICONS.CMD, hotkey: '2', disabled: true, disabledTooltip: "This command is <strong>currently</strong> unavailable."}); rtsMenu.addSeparator(); rtsMenu.addButton("More Options...", () => { rtsMenu.openSubmenu(buildMoreContextMenuOptions); return true; }, { opensSubmenu: true, hotkey: 'M', tooltip: "View more context actions."}); };
+        const buildMoreContextMenuOptions = () => { rtsMenu.addBackButton(); rtsMenu.addButton("Sub Option A", () => console.log("RTSMenu Context Action: Sub Option A"), { iconSrc: ICONS.SETTINGS}); rtsMenu.addButton("Sub Option B", () => console.log("RTSMenu Context Action: Sub Option B"), { iconSrc: ICONS.SETTINGS}); };
+        const buildLongMenu = () => { rtsMenu.addButton("Top Item", () => console.log("Top item clicked"), {tooltip: "This is the <strong>very</strong> top item."}); for (let i = 1; i <= 25; i++) { rtsMenu.addButton(`Scrollable Item ${i}`, () => console.log(`Clicked Scrollable Item ${i}`), {tooltip: `Details for scrollable item #${i}`}); if (i % 5 === 0) rtsMenu.addSeparator(); } rtsMenu.addButton("Bottom Item", () => console.log("Bottom item clicked"), {tooltip: "The final item at the bottom."}); };
+        
+        const featureXStatus = document.getElementById('demo-feature-x-status'); 
+
+
+        const demoTriggerButton = document.getElementById('demo-trigger-button');
+        const demoLongMenuButton = document.getElementById('demo-long-menu-button');
+        if (demoTriggerButton) { demoTriggerButton.addEventListener('click', (event) => { if (rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === event.currentTarget) { rtsMenu.hide(); } else { rtsMenu.showRoot(event.currentTarget, buildMainMenu, event.currentTarget); } }); }
+        if (demoLongMenuButton) { demoLongMenuButton.addEventListener('click', (event) => { if (rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === event.currentTarget) { rtsMenu.hide(); } else { rtsMenu.showRoot(event.currentTarget, buildLongMenu, event.currentTarget); } }); }
+        const topLeftTarget = document.getElementById('top-left-target'); if(topLeftTarget) { topLeftTarget.addEventListener('contextmenu', (event) => {event.preventDefault(); rtsMenu.showRoot(topLeftTarget, buildMainMenu, topLeftTarget); }); }
+        document.addEventListener('keydown', (event) => { if (!(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA'))) { if (event.key.toLowerCase() === 'm') { event.preventDefault(); const trigger = demoTriggerButton || document.body; if (rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === trigger) { rtsMenu.hide(); } else { rtsMenu.showRoot(trigger, buildMainMenu, trigger); } } else if (event.key.toLowerCase() === 'l') { event.preventDefault(); const trigger = demoLongMenuButton || document.body; if (rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === trigger) { rtsMenu.hide(); } else { rtsMenu.showRoot(trigger, buildLongMenu, trigger); } } } });
+        document.body.addEventListener('contextmenu', (event) => { event.preventDefault(); let targetElementForPos = event.target; let builder = buildContextMenu; const positionTestTargetEl = document.getElementById('position-test-target'); let focusReturnTarget = (event.target instanceof HTMLElement && event.target.focus && event.target !== document.body) ? event.target : document.body; rtsMenu.lastContextMenuTargetIsBody = (focusReturnTarget === document.body); if (positionTestTargetEl && positionTestTargetEl.contains(targetElementForPos)) { builder = buildMainMenu; targetElementForPos = positionTestTargetEl; focusReturnTarget = positionTestTargetEl;} else if (topLeftTarget && topLeftTarget.contains(targetElementForPos)) { builder = buildMainMenu; targetElementForPos = topLeftTarget; focusReturnTarget = topLeftTarget; } else { targetElementForPos = { x: event.clientX, y: event.clientY }; } rtsMenu.showRoot(targetElementForPos, builder, focusReturnTarget); });
+        const positionTestTarget = document.getElementById('position-test-target'); 
+        if(positionTestTarget) { positionTestTarget.addEventListener('click', (e) => { e.stopPropagation(); console.log('RTSMenu Demo: Clicked position test target.'); if(rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === e.currentTarget) { rtsMenu.hide(); } }); }
+
+        document.getElementById('demo-add-item-start').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.addItemAt(0, "Dyn Start", () => console.log("RTSMenu Action: Dynamic Start Action!"), {iconSrc: ICONS.ADD, tooltip: "Dynamically added!"}); } else { console.warn("RTSMenu Demo: Open a menu first."); } });
+        document.getElementById('demo-add-item-mid').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.addItemAt(2, "Dyn Middle", () => console.log("RTSMenu Action: Dynamic Middle Action!"), {iconSrc: ICONS.INFO, tooltip: "Inserted in the middle."}); } else { console.warn("RTSMenu Demo: Open a menu first."); } });
+        document.getElementById('demo-remove-item-start').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.removeItemAt(0); } else { console.warn("RTSMenu Demo: Open a menu first."); } });
+        document.getElementById('demo-remove-item-mid').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 1) { rtsMenu.removeItemAt(1); } else { console.warn("RTSMenu Demo: Open a menu with at least 2 items."); } });
+        document.getElementById('demo-update-item-0').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 0 && rtsMenu.buttonsData[0] && !rtsMenu.buttonsData[0].isSeparator) { const newLabel = document.getElementById('demo-update-label-text').value || "Updated Label"; rtsMenu.updateItemAt(0, newLabel, { tooltip: `<strong>Important:</strong><br>Tooltip for ${newLabel}` }); } else { console.warn("RTSMenu Demo: Open a menu with at least one non-separator item."); } });
+        document.getElementById('demo-toggle-disable-item-0').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 0 && rtsMenu.buttonsData[0] && !rtsMenu.buttonsData[0].isSeparator) { const currentItem = rtsMenu.buttonsData[0]; const currentItemOptions = currentItem.options || {}; const newDisabledState = !(currentItemOptions.disabledOriginal ?? currentItem.disabled); rtsMenu.updateItemAt(0, currentItem.label, { disabled: newDisabledState, tooltip: newDisabledState ? "Now Disabled by Demo" : "Now Enabled by Demo", disabledTooltip: "Explicitly Disabled by Demo" }); } else { console.warn("RTSMenu Demo: Open a menu with at least one non-separator item."); } });
+        
+        document.getElementById('theme-default-button').addEventListener('click', () => {
+            document.body.classList.remove('rtsmenu-dark-theme');
+        });
+        document.getElementById('theme-dark-button').addEventListener('click', () => {
+            document.body.classList.add('rtsmenu-dark-theme');
+        });
+
+        // --- INTERNAL TEST SUITE ---
+        class MenuTester { 
+            constructor(menuInstance, reportElementId) { this.menu = menuInstance; this.reportElement = document.getElementById(reportElementId); this.tests = []; }
+            _log(message, cssClass = '') { const entry = document.createElement('div'); entry.textContent = message; if (cssClass) entry.className = cssClass; this.reportElement.appendChild(entry); this.reportElement.scrollTop = this.reportElement.scrollHeight; }
+            _assert(condition, successMessage, failureMessage) { if (condition) { this._log(`  ✅ ${successMessage}`, 'test-pass'); return true; } else { this._log(`  ❌ ${failureMessage}`, 'test-fail'); return false; } }
+            async _runSingleTest(test) { this._log(`Running test: ${test.name}${test.critical ? ' (CRITICAL)' : ''}...`); test.passed = true; try { for (const step of test.steps) { await new Promise(r => setTimeout(r, 70)); const stepPassed = await step.call(this); if (!stepPassed) test.passed = false; } } catch (e) { this._log(`  💥 ERROR in test "${test.name}": ${e.message}`, 'test-fail'); console.error(e); test.passed = false; } if (test.passed) this._log(`Test "${test.name}" PASSED.\n`, 'test-pass'); else this._log(`Test "${test.name}" FAILED.\n`, 'test-fail'); this.menu.hide(); this.menu.clear(); document.body.classList.remove('rtsmenu-dark-theme'); }
+            defineTest(name, stepsArray, critical = false) { this.tests.push({ name, steps: stepsArray, passed: false, critical }); }
+            async runAllTests() { this.reportElement.innerHTML = 'Starting tests...\n'; for (const test of this.tests) { test.passed = false; } for (const test of this.tests) { await this._runSingleTest(test); } let testsPassedCount = this.tests.filter(t => t.passed).length; let testsFailedCount = this.tests.length - testsPassedCount; let criticalFailures = this.tests.filter(t => !t.passed && t.critical); this._log('\n--- Test Summary ---', 'test-summary-header'); this._log(`Total tests run: ${this.tests.length}`); this._log(`Passed: ${testsPassedCount}`, testsPassedCount > 0 && testsFailedCount === 0 ? 'test-pass' : ''); this._log(`Failed: ${testsFailedCount}`, testsFailedCount > 0 ? 'test-fail' : ''); this._log('--------------------'); if (criticalFailures.length > 0) { this._log("🔴 CRITICAL ACTION:", 'test-fail'); this._log("   Immediate review needed for:", 'test-fail'); criticalFailures.forEach(cf => this._log(`   - ${cf.name}`, 'test-fail')); this._log("   Provide full report & console output.", 'test-action-item'); } else if (testsFailedCount > 0) { this._log("🟡 WARNING: Failures detected.", 'test-fail'); this._log("   Review failed tests:", 'test-fail'); this.tests.filter(t => !t.passed).forEach(tf => this._log(`   - ${tf.name}`, 'test-fail')); this._log("   Provide report & console if issues persist.", 'test-action-item'); } else { this._log("🟢 All systems nominal. Menu health: GREEN!", 'test-pass'); this._log("   Proceed with general usability testing.", 'test-action-item'); } this._log('--------------------'); if (this.menu.isVisible) this.menu.hide(); document.body.classList.remove('rtsmenu-dark-theme'); }
+            copyReportToClipboard() { const reportText = this.reportElement.innerText || this.reportElement.textContent; navigator.clipboard.writeText(reportText).then(() => { this._log("\n📋 Report copied to clipboard!", "test-action-item"); }).catch(err => { this._log("\n❌ Failed to copy report: " + err, "test-fail"); console.error('Failed to copy report: ', err); }); }
+            setupTests() { 
+                this.defineTest("Menu Initialization and Visibility", [ async () => this._assert(this.menu.container !== null, "Menu container exists.", "Menu container NOT found."), async () => { this.menu.show({x:10, y:10}, () => this.menu.addButton("TestVis", () => {})); return this._assert(this.menu.isVisible && this.menu.container.style.display === 'block', "Menu shows correctly.", "Menu NOT visible after show()."); }, async () => { this.menu.hide(); return this._assert(!this.menu.isVisible && this.menu.container.style.display === 'none', "Menu hides correctly.", "Menu NOT hidden after hide()."); } ], true);
+                this.defineTest("Adding and Clearing Buttons", [ async () => { const builderFunc = () => { this.menu.addButton("Btn1", () => {}); this.menu.addButton("Btn2", () => {}); }; this.menu.show({x:0, y:0}, builderFunc); const buttons = this.menu.container.querySelectorAll('button[role="menuitem"]'); return this._assert(this.menu.buttonsData.length === 2 && buttons.length === 2, "Buttons added correctly (checked role).", "Button count mismatch (checked role)."); }, async () => { this.menu.clear(); return this._assert(this.menu.buttonsData.length === 0 && this.menu.container.querySelectorAll('button[role="menuitem"]').length === 0, "Buttons cleared correctly (checked role).", "Button count mismatch after clear (checked role)."); } ], true);
+                this.defineTest("Button Callback Execution (via Click)", [ async () => { let callbackFired = false; const builderFunc = () => { this.menu.addButton("ClickTestBtn", () => { callbackFired = true; }); }; this.menu.show({x:0,y:0}, builderFunc); const btnElement = this.menu.buttonsData[0]?.element; if(btnElement) { btnElement.click(); await new Promise(r => setTimeout(r, 10)); } const result = this._assert(callbackFired, "Button callback fired via click.", "Button callback DID NOT fire via click."); this.menu.hide(); return result; } ], true);
+                this.defineTest("Submenu Navigation", [ async () => { let subOpened = false; const buildSub = () => { this.menu.addBackButton(); this.menu.addButton("SubItem", ()=>{}); subOpened = true;}; const buildMain = () => { this.menu.addButton("ToSub", () => {this.menu.openSubmenu(buildSub); return true;}, { opensSubmenu: true }); }; this.menu.showRoot({x:0,y:0}, buildMain, document.getElementById('demo-trigger-button')); const triggerItemData = this.menu.buttonsData[0]; if (triggerItemData && triggerItemData.element) { triggerItemData.element.click(); await new Promise(r => setTimeout(r, 10)); return this._assert(subOpened && this.menu.menuStateStack.length === 1 && triggerItemData.element.getAttribute('aria-expanded') === 'true' && this.menu.container.textContent.includes("SubItem"), "Submenu opened correctly (checked aria-expanded).", "Submenu did not open as expected."); } return this._assert(false, "Could not find button to open submenu.", "Submenu test setup failed."); }, async () => { const backButtonData = this.menu.buttonsData[0]; const parentState = this.menu.menuStateStack[0]; const parentTriggerItemIndex = parentState?.triggerItemIndexInParent; if (backButtonData && backButtonData.isBackButton && backButtonData.element && parentTriggerItemIndex !== undefined && parentTriggerItemIndex !== -1 ) { backButtonData.element.click(); await new Promise(r => setTimeout(r, 10)); const parentMenuTriggerData = this.menu.buttonsData[parentTriggerItemIndex]; return this._assert(this.menu.menuStateStack.length === 0 && parentMenuTriggerData && parentMenuTriggerData.element.getAttribute('aria-expanded') === 'false' && this.menu.container.textContent.includes("ToSub"), "Navigated back correctly (checked aria-expanded).", "Back navigation failed."); } return this._assert(false, "Could not find back button/parent trigger info in submenu.", "Submenu back test setup failed."); } ]);
+                this.defineTest("Hotkey Functionality (Specific Key)", [ 
+                    async () => { 
+                        let f1HotkeyActionDone = false;
+                        const builderFunc = () => { this.menu.addButton("F1 Action", () => { f1HotkeyActionDone = true; }, { hotkey: 'F1' }); }; 
+                        this.menu.show({x:0, y:0}, builderFunc);  
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'F1', bubbles: true })); 
+                        await new Promise(r => setTimeout(r, 10)); 
+                        const result = this._assert(f1HotkeyActionDone, "Hotkey 'F1' triggered action.", "Hotkey 'F1' failed."); 
+                        this.menu.hide(); 
+                        return result; 
+                    },
+                    async () => { 
+                        let hotkeyActionDone = false; 
+                        const builderFunc = () => { this.menu.addButton("Action Hotkey H", () => { hotkeyActionDone = true; }, { hotkey: 'H' }); }; 
+                        this.menu.show({x:0, y:0}, builderFunc);  
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'h', bubbles: true })); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        const result = this._assert(!hotkeyActionDone && this.menu.searchQuery === 'h', "Character 'h' initiated search (not hotkey); query is 'h'.", "Character 'h' incorrectly triggered hotkey OR search query not 'h'."); 
+                        await new Promise(r => setTimeout(r, this.menu.searchDelay + 50));
+                        const result2 = this._assert(this.menu.searchQuery === '', "Search query for 'h' cleared after timeout.", "Search query for 'h' not cleared after timeout.");
+                        this.menu.hide(); 
+                        return result && result2; 
+                    }, 
+                    async () => { 
+                        let disabledHotkeyActionDone = false; 
+                        const builderFunc = () => { this.menu.addButton("Disabled Action D", () => { disabledHotkeyActionDone = true; }, { hotkey: 'D', disabled: true }); }; 
+                        this.menu.show({x:0, y:0}, builderFunc); 
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', bubbles: true })); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        const result = this._assert(!disabledHotkeyActionDone && this.menu.searchQuery === 'd', "Character 'd' (for disabled hotkey) initiated search; query is 'd'.", "Character 'd' for disabled hotkey behaved unexpectedly."); 
+                        await new Promise(r => setTimeout(r, this.menu.searchDelay + 50));
+                        const result2 = this._assert(this.menu.searchQuery === '', "Search query for 'd' cleared after timeout.", "Search query for 'd' not cleared after timeout.");
+                        this.menu.hide(); 
+                        return result && result2; 
+                    } 
+                ]);
+                this.defineTest("Keyboard Navigation (Roving Tabindex)", [ async () => { let firstItemLabel = ""; const builder = () => { this.menu.addButton("Item 1 (Nav)", () => {}, {hotkey: '1'}); firstItemLabel = "Item 1 (Nav)"; this.menu.addButton("Item 2 (Nav)", () => {}, {hotkey: '2'}); }; this.menu.show({x:0, y:0}, builder); await new Promise(r => setTimeout(r, 10)); const firstBtn = this.menu.buttonsData[0]?.element; return this._assert(document.activeElement === firstBtn && firstBtn.getAttribute('tabindex') === '0', `Initial focus is on '${firstItemLabel}'.`, `Initial focus check failed.`); }, async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })); await new Promise(r => setTimeout(r, 10)); const secondBtn = this.menu.buttonsData[1]?.element; return this._assert(document.activeElement === secondBtn && secondBtn.getAttribute('tabindex') === '0', "ArrowDown moves focus to next item.", `ArrowDown failed.`); }, async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })); await new Promise(r => setTimeout(r, 10)); const firstBtn = this.menu.buttonsData[0]?.element; return this._assert(document.activeElement === firstBtn && firstBtn.getAttribute('tabindex') === '0', "ArrowDown wraps focus to first item.", `ArrowDown wrap failed.`); }, async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true })); await new Promise(r => setTimeout(r, 10)); const secondBtn = this.menu.buttonsData[1]?.element; return this._assert(document.activeElement === secondBtn && secondBtn.getAttribute('tabindex') === '0', "ArrowUp wraps focus to last item.", `ArrowUp wrap failed.`); }, async () => { let enterActivated = false; this.menu.clear(); const builder = () => { this.menu.addButton("Item NonActive", () => {}); this.menu.addButton("Item To Activate", () => { enterActivated = true; }); }; this.menu.show({x:0, y:0}, builder); this.menu.navigateToFirst(); this.menu.navigate(1); await new Promise(r => setTimeout(r, 10)); document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); await new Promise(r => setTimeout(r, 10)); return this._assert(enterActivated, "Enter key activates focused item.", "Enter key activation failed."); }, async () => { this.menu.clear(); const builder = () => { this.menu.addButton("Nav Item 1", () => {}); this.menu.addButton("Nav Disabled", () => {}, { disabled: true }); this.menu.addSeparator(); this.menu.addButton("Nav Item 3", () => {}); }; this.menu.show({x:0, y:0}, builder); await new Promise(r => setTimeout(r, 10)); document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })); await new Promise(r => setTimeout(r, 10)); const thirdBtn = this.menu.buttonsData[3]?.element; return this._assert(document.activeElement === thirdBtn, "ArrowDown skips disabled and separator (focus).", `ArrowDown skip failed.`); }, async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true })); await new Promise(r => setTimeout(r, 10)); const firstBtn = this.menu.buttonsData[0]?.element; return this._assert(document.activeElement === firstBtn, "ArrowUp skips disabled and separator (focus).", `ArrowUp skip failed.`); } ], true);
+                this.defineTest("ARIA Attributes Verification", [ async () => { const builder = () => { this.menu.addButton("Item", ()=>{}); }; this.menu.show({x:0,y:0}, builder); await new Promise(r => setTimeout(r, 10)); const role = this.menu.container.getAttribute('role'); const orientation = this.menu.container.getAttribute('aria-orientation'); return this._assert(role === 'menu' && orientation === 'vertical', "Menu container has role/orientation.", "Menu container ARIA missing."); }, 
+                async () => { 
+                    let btnEl, disEl, sepEl, subEl, noTipEl; 
+                    const builder = () => { 
+                        this.menu.addButton("Item A", ()=>{}, {hotkey:'A', tooltip: "My Tip"}); 
+                        this.menu.addButton("Item B (Dis)", ()=>{}, {disabled: true, tooltip: "Disabled Tip", disabledTooltip: "Actual Disabled Tip"}); 
+                        this.menu.addSeparator(); 
+                        this.menu.addButton("Item C (Sub)", ()=>{return true;}, {opensSubmenu: true}); 
+                        this.menu.addButton("Item D (NoTip)", ()=>{}); 
+                        btnEl=this.menu.buttonsData[0].element; 
+                        disEl=this.menu.buttonsData[1].element; 
+                        sepEl=this.menu.buttonsData[2].wrapper; 
+                        subEl=this.menu.buttonsData[3].element; 
+                        noTipEl=this.menu.buttonsData[4].element; 
+                    }; 
+                    this.menu.show({x:0,y:0}, builder); 
+                    await new Promise(r => setTimeout(r, 10)); 
+                    let pass=true; 
+                    pass=pass && this._assert(btnEl?.getAttribute('role') === 'menuitem', "Button role='menuitem'.", "Button missing role."); 
+                    pass=pass && this._assert(sepEl?.getAttribute('role') === 'separator', "Separator role='separator'.", "Separator missing role."); 
+                    pass=pass && this._assert(disEl?.getAttribute('aria-disabled') === 'true', "Disabled btn aria-disabled='true'.", "Disabled btn missing aria-disabled."); 
+                    pass=pass && this._assert(subEl?.getAttribute('aria-haspopup') === 'true', "Submenu btn aria-haspopup='true'.", "Submenu btn missing aria-haspopup."); 
+                    pass=pass && this._assert(subEl?.getAttribute('aria-expanded') === 'false', "Submenu btn aria-expanded='false'.", "Submenu btn missing aria-expanded."); 
+                    pass=pass && this._assert(btnEl?.getAttribute('aria-keyshortcuts') === 'A', "Btn aria-keyshortcuts='A'.", "Btn missing aria-keyshortcuts."); 
+                    const globalTooltipId = this.menu.tooltipElement?.id; 
+                    pass=pass && this._assert(globalTooltipId !== undefined && globalTooltipId !== '', "Global tooltip element has a valid ID.", "Global tooltip ID missing or empty."); 
+                    if (globalTooltipId) { 
+                        pass=pass && this._assert(btnEl?.getAttribute('aria-describedby') === globalTooltipId, "Button with tooltip has correct aria-describedby.", "Button with tooltip missing/incorrect aria-describedby."); 
+                        pass=pass && this._assert(disEl?.getAttribute('aria-describedby') === globalTooltipId, "Disabled button with tooltip has correct aria-describedby.", "Disabled button with tooltip missing/incorrect aria-describedby.");
+                        pass=pass && this._assert(noTipEl?.hasAttribute('aria-describedby') === false, "Button without tooltip does not have aria-describedby.", "Button without tooltip incorrectly has aria-describedby."); 
+                    } else { 
+                        this._log("  ⚠️ Global tooltip ID not available, skipping some aria-describedby checks.", "test-fail"); 
+                        pass = false; 
+                    } 
+                    return pass; 
+                } ], false); 
+                this.defineTest("Global Cooldown Persistence", [ async () => { const ABILITY_ID = 'testCooldownAbility'; const COOLDOWN_S = 0.2; let callbackCount = 0; const builder = () => { this.menu.addButton("Cooldown Test Action", () => { callbackCount++; }, { abilityId: ABILITY_ID, cooldownSeconds: COOLDOWN_S, hotkey: 'T' }); }; this.menu.show({x:0, y:0}, builder); await new Promise(r => setTimeout(r, 10)); const btnElement = this.menu.buttonsData[0]?.element; if(!btnElement) return this._assert(false, "", "Test setup: button not found."); btnElement.click(); await new Promise(r => setTimeout(r, 10)); let check1 = this._assert(callbackCount === 1, "CB fired on 1st click.", "CB NOT fired 1st click."); check1 = check1 && this._assert(this.menu.cooldownManager.isOnCooldown(ABILITY_ID), "CD active in manager.", "CD not active in manager."); check1 = check1 && this._assert(btnElement.disabled === true, "Btn element disabled.", "Btn element not disabled."); this.menu.hide(); await new Promise(r => setTimeout(r, COOLDOWN_S * 1000 / 2)); this.menu.show({x:0, y:0}, builder); await new Promise(r => setTimeout(r, 10)); const newBtnElement = this.menu.buttonsData[0]?.element; if(!newBtnElement) return this._assert(false, "", "Test setup: button not found after rebuild."); let check2 = this._assert(this.menu.cooldownManager.isOnCooldown(ABILITY_ID), "CD still active after reopen.", "CD not active after reopen."); check2 = check2 && this._assert(newBtnElement.disabled === true, "Btn still disabled after reopen.", "Btn not disabled after reopen."); newBtnElement.click(); await new Promise(r => setTimeout(r, 10)); let check3 = this._assert(callbackCount === 1, "CB count unchanged on CD click.", "CB fired on CD (FAIL)."); await new Promise(r => setTimeout(r, COOLDOWN_S * 1000 / 2 + 50)); this.menu.hide(); this.menu.show({x:0, y:0}, builder); await new Promise(r => setTimeout(r, 10)); const finalBtnElement = this.menu.buttonsData[0]?.element; if(!finalBtnElement) return this._assert(false, "", "Test setup: button not found post-CD."); let check4 = this._assert(!this.menu.cooldownManager.isOnCooldown(ABILITY_ID), "CD expired in manager.", "CD did not expire."); check4 = check4 && this._assert(finalBtnElement.disabled === false, "Btn enabled after CD.", "Btn still disabled after CD."); return check1 && check2 && check3 && check4; } ], true);
+                this.defineTest("Scrollable Menu Behavior", [ async () => { this.menu.show({x:0, y:0}, buildLongMenu); await new Promise(r => setTimeout(r, 50)); const container = this.menu.container; const maxHeightApplied = container.style.maxHeight !== ''; const overflowApplied = container.style.overflowY === 'auto'; return this._assert(maxHeightApplied && overflowApplied, "Long menu applies maxHeight and overflowY.", "Long menu scroll styles not applied."); }, async () => { this.menu.navigateToLast(); await new Promise(r => setTimeout(r, 50)); const lastButtonData = this.menu.buttonsData[this.menu.focusedIndex]; const lastButtonElement = lastButtonData?.element; if (!lastButtonElement) return this._assert(false, "", "Last button not found for scroll test."); const containerRect = this.menu.container.getBoundingClientRect(); const buttonRect = lastButtonElement.getBoundingClientRect(); const isVisible = buttonRect.top >= containerRect.top && buttonRect.bottom <= containerRect.bottom + 5; return this._assert(isVisible, "Last item scrolled into view on navigateToLast().", "Last item not scrolled into view."); } ], false); 
+                this.defineTest("Focus Restoration on Hide", [ 
+                    async () => { 
+                        const triggerBtn = document.getElementById('demo-trigger-button'); 
+                        triggerBtn.focus(); 
+                        this.menu.showRoot({x:0,y:0}, buildMainMenu, triggerBtn); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        if (!this.menu.isVisible) return this._assert(false, "", "Menu did not show for Esc focus test."); 
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        return this._assert(document.activeElement === triggerBtn, "Focus returned to trigger button after Esc.", "Focus NOT returned after Esc."); 
+                    }, 
+                    async () => { 
+                        const triggerBtn = document.getElementById('demo-trigger-button'); 
+                        triggerBtn.focus(); 
+                        this.menu.showRoot({x:0,y:0}, buildMainMenu, triggerBtn); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        if (!this.menu.isVisible) return this._assert(false, "", "Menu did not show for outside click focus test."); 
+                        document.body.click(); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        return this._assert(document.activeElement === triggerBtn, "Focus returned to trigger button after outside click.", "Focus NOT returned after outside click."); 
+                    }, 
+                    async () => { 
+                        const triggerBtn = document.getElementById('demo-trigger-button'); 
+                        triggerBtn.focus(); 
+                        const subBuilder = () => { this.menu.addBackButton(); this.menu.addButton("SubAction", () => {}); }; 
+                        const mainBuilder = () => { this.menu.addButton("OpenSub", () => { this.menu.openSubmenu(subBuilder); return true; }, { opensSubmenu: true }); }; 
+                        this.menu.showRoot({x:0,y:0}, mainBuilder, triggerBtn); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        const openSubBtnOriginalData = this.menu.buttonsData[0]; 
+                        if(!openSubBtnOriginalData || !openSubBtnOriginalData.element) return this._assert(false, "", "Submenu trigger button not found in main menu for test."); 
+                        openSubBtnOriginalData.element.focus(); 
+                        openSubBtnOriginalData.element.click(); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        if (this.menu.menuStateStack.length === 0) return this._assert(false, "", "Submenu did not open for Esc test."); 
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); 
+                        await new Promise(r => setTimeout(r, 50)); 
+                        const newlyFocusedOpenSubBtn = this.menu.buttonsData[0]?.element; 
+                        return this._assert(document.activeElement === newlyFocusedOpenSubBtn, "Focus returned to parent menu item ('OpenSub') after Esc from submenu.", `Focus not on parent item. Focused: ${document.activeElement?.outerHTML}, Expected 'OpenSub' (newly created).`); 
+                    } 
+                ], true);
+                this.defineTest("Dynamic Item Updates (via Menu Methods)", [ async () => { const builder = () => { this.menu.addButton("Initial 1", ()=>{}); this.menu.addButton("Initial 2", ()=>{}); }; this.menu.show({x:0, y:0}, builder, document.getElementById('demo-trigger-button')); this.menu.addItemAt(0, "Dyn Add Start", ()=>{}); const firstItem = this.menu.buttonsData[0]; const domFirstLabel = this.menu.container.querySelector('.rtsmenu-button-wrapper .rtsmenu-button-label')?.textContent; return this._assert(firstItem?.label === "Dyn Add Start" && domFirstLabel === "Dyn Add Start" && this.menu.buttonsData.length === 3, "addItemAt(0): Item added to start.", "addItemAt(0): Failed to add item to start."); }, 
+                async () => { this.menu.removeItemAt(0); const firstItem = this.menu.buttonsData[0]; const domFirstLabel = this.menu.container.querySelector('.rtsmenu-button-wrapper .rtsmenu-button-label')?.textContent; return this._assert(firstItem?.label === "Initial 1" && domFirstLabel === "Initial 1" && this.menu.buttonsData.length === 2, "removeItemAt(0): Item removed from start.", "removeItemAt(0): Failed to remove item from start."); }, 
+                async () => { 
+                    const NEW_LABEL = "UPDATED Initial 1"; 
+                    const NEW_TOOLTIP = "Updated tip";
+                    this.menu.updateItemAt(0, NEW_LABEL, {tooltip: NEW_TOOLTIP}); 
+                    const updatedItem = this.menu.buttonsData[0]; 
+                    const domLabel = updatedItem?.wrapper.querySelector('.rtsmenu-button-label')?.textContent; 
+                    return this._assert(
+                        updatedItem?.label === NEW_LABEL && 
+                        domLabel === NEW_LABEL && 
+                        updatedItem?.tooltip === NEW_TOOLTIP, 
+                        "updateItemAt(0): Item label and tooltip data updated.", 
+                        "updateItemAt(0): Failed to update label/tooltip data."
+                    ); 
+                }, 
+                async () => { this.menu.updateItemAt(0, "Now Disabled", {disabled: true}); const updatedItem = this.menu.buttonsData[0]; return this._assert(updatedItem?.disabled === true && updatedItem?.element.disabled === true && updatedItem?.element.getAttribute('aria-disabled') === 'true', "updateItemAt(0): Item updated to disabled.", "updateItemAt(0): Failed to update item to disabled."); }, 
+                async () => { this.menu.clear(); const builder = () => { this.menu.addButton("A", ()=>{});this.menu.addButton("B", ()=>{});this.menu.addButton("C", ()=>{});}; this.menu.show({x:0,y:0}, builder, document.getElementById('demo-trigger-button')); this.menu._setFocus(1); const itemB_element = this.menu.buttonsData[1]?.element; let step1 = this._assert(document.activeElement === itemB_element, "Item B is focused before removal.", "Item B not focused initially."); this.menu.removeItemAt(1); const itemC_element = this.menu.buttonsData[1]?.element; let step2 = this._assert(document.activeElement === itemC_element && this.menu.buttonsData[this.menu.focusedIndex]?.label === "C", "removeItemAt(focused): Focus moved to 'C'.", `removeItemAt(focused): Focus adjustment failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}, Expected: 'C'.`); return step1 && step2; } ], true); 
+                this.defineTest("Theming: Dark Theme Application", [ async () => { document.body.classList.add('rtsmenu-dark-theme'); this.menu.show({x:10, y:10}, () => this.menu.addButton("ThemeTest", () => {})); await new Promise(r => setTimeout(r, 50)); const menuBgColor = getComputedStyle(this.menu.container).backgroundColor; const isDarkBg = menuBgColor !== 'rgb(255, 255, 255)' && menuBgColor !== '#ffffff'; let pass = this._assert(document.body.classList.contains('rtsmenu-dark-theme'), "Dark theme class applied to body.", "Dark theme class NOT applied."); pass = pass && this._assert(isDarkBg, `Menu background color is dark (${menuBgColor}).`, `Menu background color is not dark.`); document.body.classList.remove('rtsmenu-dark-theme'); return pass; } ], false);
+                this.defineTest("Type-Ahead Search Functionality", [
+                    async () => { 
+                        this.menu.show({x:0, y:0}, buildMainMenu); 
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', bubbles: true }));
+                        await new Promise(r => setTimeout(r, 50));
+                        return this._assert(this.menu.buttonsData[this.menu.focusedIndex]?.label === "File", "Search 'f' focuses 'File'.", `Search 'f' failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}`);
+                    },
+                    async () => { 
+                        this.menu.show({x:0, y:0}, buildMainMenu);
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'h', bubbles: true }));
+                        await new Promise(r => setTimeout(r, 10));
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', bubbles: true }));
+                        await new Promise(r => setTimeout(r, 50));
+                        return this._assert(this.menu.buttonsData[this.menu.focusedIndex]?.label === "Help...", "Search 'he' focuses 'Help...'.", `Search 'he' failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}`);
+                    },
+                    async () => { 
+                        this.menu.show({x:0, y:0}, buildMainMenu);
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'h', bubbles: true })); await new Promise(r => setTimeout(r, 10));
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', bubbles: true })); await new Promise(r => setTimeout(r, 10)); 
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace', bubbles: true })); await new Promise(r => setTimeout(r, 50)); 
+                        return this._assert(this.menu.buttonsData[this.menu.focusedIndex]?.label === "Help...", "Search 'he' then Backspace focuses 'Help...'.", `Search Backspace failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}, Query: ${this.menu.searchQuery}`);
+                    },
+                     async () => { 
+                        this.menu.show({x:0, y:0}, buildMainMenu);
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true }));
+                        await new Promise(r => setTimeout(r, 50));
+                        let focusedCorrectly = this.menu.buttonsData[this.menu.focusedIndex]?.label === "Action With Cooldown";
+                        let queryBeforeTimeout = this.menu.searchQuery;
+                        await new Promise(r => setTimeout(r, this.menu.searchDelay + 100)); 
+                        return this._assert(focusedCorrectly && this.menu.searchQuery === '' && queryBeforeTimeout === 'a', "Search 'a' focuses 'Action', then query clears after timeout.", `Search timeout/clear failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}, Query after: ${this.menu.searchQuery}, Query before: ${queryBeforeTimeout}`);
+                    },
+                    async () => { 
+                        const builder = () => {
+                            this.menu.addButton("Apple", ()=>{}); this.menu.addButton("Ant", ()=>{}); this.menu.addButton("Banana", ()=>{});
+                        };
+                        this.menu.show({x:0, y:0}, builder);
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'A', bubbles: true })); 
+                        await new Promise(r => setTimeout(r, 50));
+                        return this._assert(this.menu.buttonsData[this.menu.focusedIndex]?.label === "Apple", "Search 'A' (uppercase) focuses 'Apple'.", `Case-insensitive search failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}`);
+                    },
+                    async () => { 
+                        const builder = () => {
+                            this.menu.addButton("Alpha", ()=>{}); 
+                            this.menu.addButton("Find This", ()=>{}, {disabled: true}); 
+                            this.menu.addButton("Finder", ()=>{});
+                            this.menu.addButton("Fixer", ()=>{}); 
+                        };
+                        this.menu.show({x:0, y:0}, builder);
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', bubbles: true })); await new Promise(r => setTimeout(r, 10));
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'i', bubbles: true })); await new Promise(r => setTimeout(r, 50));
+                        return this._assert(this.menu.buttonsData[this.menu.focusedIndex]?.label === "Finder", "Search 'fi' skips disabled and focuses 'Finder'.", `Search skip disabled failed. Focused: ${this.menu.buttonsData[this.menu.focusedIndex]?.label}`);
+                    }
+                ], true);
+                this.defineTest("Checkbox and Radio Item Functionality", [
+                    async () => { // Test checkbox toggling
+                        let lastCheckboxState;
+                        const builder = () => {
+                            this.menu.addButton("My Checkbox", (newState) => { lastCheckboxState = newState; }, { type: 'checkbox', checked: false });
+                        };
+                        this.menu.show({x:0,y:0}, builder);
+                        const cbItem = this.menu.buttonsData[0];
+                        cbItem.element.click(); await new Promise(r => setTimeout(r, 10));
+                        let check1 = this._assert(cbItem.options.checked === true && cbItem.element.getAttribute('aria-checked') === 'true' && lastCheckboxState === true, "Checkbox toggles to true on first click.", "Checkbox toggle to true failed.");
+                        cbItem.element.click(); await new Promise(r => setTimeout(r, 10));
+                        let check2 = this._assert(cbItem.options.checked === false && cbItem.element.getAttribute('aria-checked') === 'false' && lastCheckboxState === false, "Checkbox toggles to false on second click.", "Checkbox toggle to false failed.");
+                        return check1 && check2;
+                    },
+                    async () => { // Test radio group behavior
+                        let radio1CbCount = 0, radio2CbCount = 0; 
+                        const builder = () => {
+                            this.menu.addButton("Radio 1 (GroupA)", (s) => { if(s) radio1CbCount++; }, { type: 'radio', radioGroup: 'groupA', checked: true });
+                            this.menu.addButton("Radio 2 (GroupA)", (s) => { if(s) radio2CbCount++;}, { type: 'radio', radioGroup: 'groupA' });
+                            this.menu.addButton("Radio 3 (GroupB)", () => {}, { type: 'radio', radioGroup: 'groupB', checked: true });
+                        };
+                        this.menu.show({x:0,y:0}, builder);
+                        const r1 = this.menu.buttonsData[0];
+                        const r2 = this.menu.buttonsData[1];
+                        const r3 = this.menu.buttonsData[2];
+                        
+                        radio1CbCount = 0; radio2CbCount = 0; 
+
+                        r2.element.click(); await new Promise(r => setTimeout(r, 10)); 
+                        let step1 = this._assert(r1.options.checked === false && r2.options.checked === true && r3.options.checked === true, "Clicking Radio2 checks it, unchecks Radio1, GroupB unaffected.", "Radio group A mutual exclusion failed.");
+                        step1 = step1 && this._assert(radio2CbCount === 1, "Radio 2 callback fired once on selection.", `Radio 2 CB count wrong. Expected 1, got ${radio2CbCount}`);
+                        
+                        r1.element.click(); await new Promise(r => setTimeout(r, 10)); 
+                        let step2 = this._assert(r1.options.checked === true && r2.options.checked === false, "Clicking Radio1 checks it, unchecks Radio2.", "Radio group A mutual exclusion (R1) failed.");
+                        step2 = step2 && this._assert(radio1CbCount === 1, "Radio 1 callback fired once on selection.", `Radio 1 CB count wrong. Expected 1, got ${radio1CbCount}`);
+                        
+                        const oldRadio1CbCountBeforeReclick = radio1CbCount;
+                        r1.element.click(); await new Promise(r => setTimeout(r,10)); 
+                        let step3 = this._assert(r1.options.checked === true && radio1CbCount === oldRadio1CbCountBeforeReclick, "Clicking already checked radio R1 does not change state or re-fire CB.", `R1 re-click fail. CB count: ${radio1CbCount}, Expected: ${oldRadio1CbCountBeforeReclick}`);
+
+                        return step1 && step2 && step3;
+                    },
+                    async () => { // Test Enter/Space on checkable items
+                        let cbEnterState;
+                        const builder = () => { this.menu.addButton("CB for Enter", (s) => { cbEnterState = s; }, { type: 'checkbox' }); };
+                        this.menu.show({x:0, y:0}, builder);
+                        this.menu.navigateToFirst(); 
+                        document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+                        await new Promise(r => setTimeout(r, 10));
+                        const item = this.menu.buttonsData[0];
+                        return this._assert(item.options.checked === true && item.element.getAttribute('aria-checked') === 'true' && cbEnterState === true, "Space toggles checkbox.", "Space on checkbox failed.");
+                    }
+                ], true);
+            }
+        }
+        
+        const menuTester = new MenuTester(rtsMenu, 'test-report'); 
+        menuTester.setupTests(); 
+        document.getElementById('run-tests-button').addEventListener('click', () => { menuTester.runAllTests(); });
+        document.getElementById('copy-report-button').addEventListener('click', () => { menuTester.copyReportToClipboard(); });
+
+    </script>
+</body>
+</html>
