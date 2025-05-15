@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Project: RTSMenu.js | File: RTSMenuDemo.html -->
-    <title>RTSMenu.js - Demo</title>
+    <title>JS-RTS-Menu - Tech Demo</title>
     <style>
         :root {
             /* RTSMenu Default Theme Variables */
@@ -100,26 +100,26 @@
         }
         #top-left-target { position: absolute; top: 5px; left: 5px; padding: 10px; border: 1px dashed blue; cursor: context-menu;}
         
-        #rtsmenu-container { display: none; position: absolute; background-color: var(--rtsmenu-bg); border: 1px solid var(--rtsmenu-border-color); box-shadow: var(--rtsmenu-shadow); z-index: 1000; min-width: 200px; padding: var(--rtsmenu-padding-y) var(--rtsmenu-padding-x); opacity: 0; border-radius: var(--rtsmenu-border-radius); outline: none; }
-        .rtsmenu-button-wrapper { position: relative; display: flex; align-items: center; padding: 0px var(--rtsmenu-item-padding-x); outline: none; }
-        #rtsmenu-container button:focus { outline: 2px solid var(--rtsmenu-item-focus-outline-color); outline-offset: -2px; background-color: var(--rtsmenu-item-focus-bg); }
-        .rtsmenu-button-wrapper:hover { background-color: var(--rtsmenu-item-hover-bg); }
-        .rtsmenu-button-wrapper:hover > button, .rtsmenu-button-wrapper > button:focus { background-color: transparent; color: var(--rtsmenu-item-hover-text-color); }
-        .rtsmenu-button-wrapper:has(button:disabled) { background-color: transparent; cursor: not-allowed; }
-        .rtsmenu-button-wrapper:has(button:disabled):hover { background-color: transparent; }
-        #rtsmenu-container button { role: menuitem; flex-grow: 1; padding: var(--rtsmenu-item-button-padding-y) var(--rtsmenu-item-button-padding-x); text-align: left; border: none; background-color: transparent; cursor: pointer; font-size: 0.95em; display: flex; align-items: center; width: 100%; color: var(--rtsmenu-text-color-primary); border-radius: 4px; }
-        .rtsmenu-button-icon { width: var(--rtsmenu-icon-size); height: var(--rtsmenu-icon-size); margin-right: var(--rtsmenu-icon-margin-right); flex-shrink: 0; pointer-events: none; }
-        .rtsmenu-button-label { flex-grow: 1; pointer-events: none; }
-        .rtsmenu-button-cost { font-size: var(--rtsmenu-cost-font-size); color: var(--rtsmenu-text-color-secondary); margin-left: var(--rtsmenu-cost-margin-left); white-space: nowrap; pointer-events: none; }
-        .rtsmenu-button-cost.cost-insufficient { color: var(--rtsmenu-text-color-insufficient); }
-        .rtsmenu-button-hotkey { font-size: var(--rtsmenu-hotkey-font-size); color: var(--rtsmenu-text-color-subtle); padding-left: var(--rtsmenu-hotkey-padding-left); flex-shrink: 0; font-weight: normal; }
-        #rtsmenu-container button:disabled { color: var(--rtsmenu-text-color-disabled); cursor: not-allowed; background-color: transparent; }
-        #rtsmenu-container button.rtsmenu-back-button .rtsmenu-button-label { font-style: italic; }
-        #rtsmenu-global-tooltip { visibility: hidden; opacity: 0; background-color: var(--rtsmenu-tooltip-bg); color: var(--rtsmenu-tooltip-text-color); text-align: left; border-radius: var(--rtsmenu-tooltip-radius); padding: var(--rtsmenu-tooltip-padding-y) var(--rtsmenu-tooltip-padding-x); position: fixed; z-index: 1002; font-size: 0.85em; line-height: 1.4; transition: opacity 0.1s ease-out; white-space: normal; pointer-events: none; max-width: 280px; box-shadow: var(--rtsmenu-tooltip-shadow); outline: none !important; left: -9999px; top: -9999px; }
-        .rtsmenu-separator { height: 1px; background-color: var(--rtsmenu-separator-color); margin: var(--rtsmenu-separator-margin-y) 0; }
-        .rtsmenu-button-cooldown-timer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--rtsmenu-cooldown-overlay-bg); display: none; align-items: center; justify-content: center; color: var(--rtsmenu-cooldown-text-color); font-weight: bold; font-size: 0.9em; pointer-events: none; border-radius: 4px; }
+        #js-rts-menu-container { display: none; position: absolute; background-color: var(--rtsmenu-bg); border: 1px solid var(--rtsmenu-border-color); box-shadow: var(--rtsmenu-shadow); z-index: 1000; min-width: 200px; padding: var(--rtsmenu-padding-y) var(--rtsmenu-padding-x); opacity: 0; border-radius: var(--rtsmenu-border-radius); outline: none; }
+        .js-rts-menu-button-wrapper { position: relative; display: flex; align-items: center; padding: 0px var(--rtsmenu-item-padding-x); outline: none; }
+        #js-rts-menu-container button:focus { outline: 2px solid var(--rtsmenu-item-focus-outline-color); outline-offset: -2px; background-color: var(--rtsmenu-item-focus-bg); }
+        .js-rts-menu-button-wrapper:hover { background-color: var(--rtsmenu-item-hover-bg); }
+        .js-rts-menu-button-wrapper:hover > button, .js-rts-menu-button-wrapper > button:focus { background-color: transparent; color: var(--rtsmenu-item-hover-text-color); }
+        .js-rts-menu-button-wrapper:has(button:disabled) { background-color: transparent; cursor: not-allowed; }
+        .js-rts-menu-button-wrapper:has(button:disabled):hover { background-color: transparent; }
+        #js-rts-menu-container button { role: menuitem; flex-grow: 1; padding: var(--rtsmenu-item-button-padding-y) var(--rtsmenu-item-button-padding-x); text-align: left; border: none; background-color: transparent; cursor: pointer; font-size: 0.95em; display: flex; align-items: center; width: 100%; color: var(--rtsmenu-text-color-primary); border-radius: 4px; }
+        .js-rts-menu-button-icon { width: var(--rtsmenu-icon-size); height: var(--rtsmenu-icon-size); margin-right: var(--rtsmenu-icon-margin-right); flex-shrink: 0; pointer-events: none; }
+        .js-rts-menu-button-label { flex-grow: 1; pointer-events: none; }
+        .js-rts-menu-button-cost { font-size: var(--rtsmenu-cost-font-size); color: var(--rtsmenu-text-color-secondary); margin-left: var(--rtsmenu-cost-margin-left); white-space: nowrap; pointer-events: none; }
+        .js-rts-menu-button-cost.cost-insufficient { color: var(--rtsmenu-text-color-insufficient); }
+        .js-rts-menu-button-hotkey { font-size: var(--rtsmenu-hotkey-font-size); color: var(--rtsmenu-text-color-subtle); padding-left: var(--rtsmenu-hotkey-padding-left); flex-shrink: 0; font-weight: normal; }
+        #js-rts-menu-container button:disabled { color: var(--rtsmenu-text-color-disabled); cursor: not-allowed; background-color: transparent; }
+        #js-rts-menu-container button.js-rts-menu-back-button .js-rts-menu-button-label { font-style: italic; }
+        #js-rts-menu-global-tooltip { visibility: hidden; opacity: 0; background-color: var(--rtsmenu-tooltip-bg); color: var(--rtsmenu-tooltip-text-color); text-align: left; border-radius: var(--rtsmenu-tooltip-radius); padding: var(--rtsmenu-tooltip-padding-y) var(--rtsmenu-tooltip-padding-x); position: fixed; z-index: 1002; font-size: 0.85em; line-height: 1.4; transition: opacity 0.1s ease-out; white-space: normal; pointer-events: none; max-width: 280px; box-shadow: var(--rtsmenu-tooltip-shadow); outline: none !important; left: -9999px; top: -9999px; }
+        .js-rts-menu-separator { height: 1px; background-color: var(--rtsmenu-separator-color); margin: var(--rtsmenu-separator-margin-y) 0; }
+        .js-rts-menu-button-cooldown-timer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--rtsmenu-cooldown-overlay-bg); display: none; align-items: center; justify-content: center; color: var(--rtsmenu-cooldown-text-color); font-weight: bold; font-size: 0.9em; pointer-events: none; border-radius: 4px; }
         
-        .rtsmenu-item-indicator { 
+        .js-rts-menu-item-indicator { 
             width: var(--rtsmenu-icon-size); 
             height: var(--rtsmenu-icon-size);
             margin-right: var(--rtsmenu-check-radio-indicator-margin-right); 
@@ -128,9 +128,9 @@
             line-height: var(--rtsmenu-icon-size); 
             flex-shrink: 0;
         }
-        button[role="menuitemcheckbox"][aria-checked="true"] > .rtsmenu-item-indicator::before { content: '✓'; }
-        button[role="menuitemradio"][aria-checked="true"] > .rtsmenu-item-indicator::before { content: '●'; } 
-        button[role="menuitemradio"][aria-checked="false"] > .rtsmenu-item-indicator::before { content: '○'; }
+        button[role="menuitemcheckbox"][aria-checked="true"] > .js-rts-menu-item-indicator::before { content: '✓'; }
+        button[role="menuitemradio"][aria-checked="true"] > .js-rts-menu-item-indicator::before { content: '●'; } 
+        button[role="menuitemradio"][aria-checked="false"] > .js-rts-menu-item-indicator::before { content: '○'; }
 
 
         .demo-controls { margin-bottom: 20px; padding:10px; background-color:#fff; border:1px solid #ddd; border-radius:4px;}
@@ -149,7 +149,7 @@
     </style>
 </head>
 <body>
-    <h1>RTSMenu.js - Demo</h1>
+    <h1>JS-RTS-Menu - Demo</h1>
     <p>Demonstrates Checkbox/Radio Items, Type-Ahead Search, Theming, and Submenu Positioning. Press 'M', Right-Click, or 'L'.</p>
     <button id="demo-trigger-button">Open Main Menu (Click or M)</button>
     <button id="demo-long-menu-button">Open Long Menu (Click or L)</button>
@@ -179,33 +179,85 @@
     </div>
 
     <div id="position-test-target">Right-Click Me (Near Edge)</div>
-    <div id="rtsmenu-container" role="menu" aria-orientation="vertical"></div>
-    <div id="rtsmenu-global-tooltip" class="menu-tooltip" role="tooltip" aria-hidden="true" tabindex="-1"></div>
+    <div id="js-rts-menu-container" role="menu" aria-orientation="vertical"></div>
+    <div id="js-rts-menu-global-tooltip" class="menu-tooltip" role="tooltip" aria-hidden="true" tabindex="-1"></div>
 
     <script>
         const ICONS = { SAVE:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%234CAF50"/></svg>',LOAD:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%232196F3"/></svg>',SETTINGS:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23FFC107"/></svg>',QUIT:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23F44336"/></svg>',ACTION:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%239C27B0"/></svg>',TOOL:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23795548"/></svg>',CMD:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23607D8B"/></svg>',ALERT:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23E91E63"/></svg>',ADD:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23FF9800"/></svg>',INFO:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%2300BCD4"/></svg>',BACK:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2303A9F4" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>' };
-        class CooldownManager { constructor() { this.cooldowns = new Map(); } start(abilityId, durationSeconds) { if (!abilityId || typeof abilityId !== 'string' || durationSeconds <= 0) { console.warn("CooldownManager: Invalid parameters for start().", {abilityId, durationSeconds}); return; } const endTime = Date.now() + durationSeconds * 1000; this.cooldowns.set(abilityId, endTime); /*console.log(`CooldownManager: Started '${abilityId}' cooldown for ${durationSeconds}s.`);*/ } isOnCooldown(abilityId) { if (!abilityId) return false; const endTime = this.cooldowns.get(abilityId); return endTime && Date.now() < endTime; } getRemainingSeconds(abilityId) { if (!abilityId) return 0; const endTime = this.cooldowns.get(abilityId); if (endTime && Date.now() < endTime) { return Math.max(0, (endTime - Date.now()) / 1000); } return 0; } }
+        
+        /**
+         * Manages cooldowns for abilities or actions.
+         */
+        class CooldownManager { 
+            constructor() { 
+                this.cooldowns = new Map(); 
+            } 
+            /**
+             * Starts a cooldown for a given ability.
+             * @param {string} abilityId - Unique identifier for the ability.
+             * @param {number} durationSeconds - Duration of the cooldown in seconds.
+             */
+            start(abilityId, durationSeconds) { 
+                if (!abilityId || typeof abilityId !== 'string' || durationSeconds <= 0) { 
+                    console.warn("CooldownManager: Invalid parameters for start().", {abilityId, durationSeconds}); return; 
+                } 
+                const endTime = Date.now() + durationSeconds * 1000; 
+                this.cooldowns.set(abilityId, endTime); 
+            } 
+            /**
+             * Checks if an ability is currently on cooldown.
+             * @param {string} abilityId - The ID of the ability.
+             * @returns {boolean} True if on cooldown, false otherwise.
+             */
+            isOnCooldown(abilityId) { 
+                if (!abilityId) return false; 
+                const endTime = this.cooldowns.get(abilityId); 
+                return endTime && Date.now() < endTime; 
+            } 
+            /**
+             * Gets the remaining cooldown time in seconds for an ability.
+             * @param {string} abilityId - The ID of the ability.
+             * @returns {number} Remaining seconds, or 0 if not on cooldown.
+             */
+            getRemainingSeconds(abilityId) { 
+                if (!abilityId) return 0; 
+                const endTime = this.cooldowns.get(abilityId); 
+                if (endTime && Date.now() < endTime) { 
+                    return Math.max(0, (endTime - Date.now()) / 1000); 
+                } 
+                return 0; 
+            } 
+        }
         const globalCooldownManager = new CooldownManager();
 
         /**
-         * @class RTSMenu
-         * A script-driven, accessible menu system, often used in RTS game UIs,
-         * supporting general application and context menu use cases.
-         * Features keyboard navigation, submenus, dynamic item management,
-         * cooldowns, tooltips, CSS-based theming, type-ahead search,
-         * and checkbox/radio menu items.
+         * @class JSRTSMenu
+         * A script-driven, accessible menu system, suitable for RTS game UIs
+         * and general web application context or action menus.
+         * Features:
+         * - ARIA compliant for accessibility.
+         * - Full keyboard navigation (arrows, Enter, Space, Escape, Home, End, Tab).
+         * - Type-ahead find functionality.
+         * - Support for nested submenus with 'Back' navigation.
+         * - Standard, checkbox, and radio button item types.
+         * - Dynamic item addition, removal, and updates.
+         * - Global tooltip system for menu items.
+         * - Item-specific cooldowns with visual feedback.
+         * - Customizable item appearance (icons, cost text, hotkey hints).
+         * - CSS Custom Property based theming.
+         * - Flexible menu positioning (anchored to elements or coordinates).
          */
-        class RTSMenu {
+        class JSRTSMenu {
             /**
-             * Creates an instance of RTSMenu.
+             * Creates an instance of JSRTSMenu.
              * @param {string} containerId - The ID of the HTML element that will contain the menu.
              * @param {CooldownManager} cooldownManagerInstance - An instance of CooldownManager.
              */
             constructor(containerId, cooldownManagerInstance) { 
                 this.container = document.getElementById(containerId);
-                if (!this.container) { console.error(`RTSMenu Error: Container ID "${containerId}" not found.`); return; }
+                if (!this.container) { console.error(`JSRTSMenu Error: Container ID "${containerId}" not found.`); return; }
                 if (!cooldownManagerInstance || typeof cooldownManagerInstance.isOnCooldown !== 'function') { 
-                    console.error(`RTSMenu Error: Valid CooldownManager instance is required.`); return; 
+                    console.error(`JSRTSMenu Error: Valid CooldownManager instance is required.`); return; 
                 }
                 this.cooldownManager = cooldownManagerInstance;
                 this.buttonsData = []; this.isVisible = false; this.menuStateStack = []; 
@@ -215,15 +267,15 @@
                 this.lastContextMenuTargetIsBody = null;
                 this.currentSequenceAnchor = null; 
 
-                this.tooltipElement = document.getElementById('rtsmenu-global-tooltip'); 
+                this.tooltipElement = document.getElementById('js-rts-menu-global-tooltip'); 
                 if (!this.tooltipElement) { 
                     this.tooltipElement = document.createElement('div'); 
-                    this.tooltipElement.id = 'rtsmenu-global-tooltip'; 
+                    this.tooltipElement.id = 'js-rts-menu-global-tooltip'; 
                     this.tooltipElement.className = 'menu-tooltip'; 
                     this.tooltipElement.setAttribute('role', 'tooltip'); 
                     this.tooltipElement.setAttribute('aria-hidden', 'true'); 
                     document.body.appendChild(this.tooltipElement); 
-                    console.warn("RTSMenu Warning: Global tooltip element '#rtsmenu-global-tooltip' not found, created fallback."); 
+                    console.warn("JSRTSMenu Warning: Global tooltip element '#js-rts-menu-global-tooltip' not found, created fallback."); 
                 }
                 this.tooltipElement.setAttribute('tabindex', '-1');
                 this.activeTooltipTarget = null; this.tooltipShowTimeout = null; this.tooltipHideTimeout = null; this.tooltipShowDelay = 400; 
@@ -239,14 +291,14 @@
 
             /**
              * Clears the current type-ahead search query and associated timeout.
-             * @param {string|null} [logMessage="RTSMenu: Search query cleared."] - Optional message for logging. Pass null to suppress logging.
+             * @param {string|null} [logMessage="JSRTSMenu: Search query cleared."] - Optional message for logging. Pass null to suppress logging.
              * @private
              */
-            _clearSearchState(logMessage = "RTSMenu: Search query cleared.") {
+            _clearSearchState(logMessage = "JSRTSMenu: Search query cleared.") {
                 clearTimeout(this.searchTimeout);
                 this.searchQuery = '';
                 this.searchTimeout = null;
-                if(logMessage && logMessage.length > 0) console.log(logMessage);
+                if(logMessage && logMessage.length > 0) { /* console.log(logMessage); */ }
             }
 
             /**
@@ -272,14 +324,14 @@
                     }
                     if (keyHandled) return; 
                     
-                    // 2. Handle Hotkeys (e.g., F-keys, or modified keys if supported in future)
+                    // 2. Handle Hotkeys 
                     let specificHotkeyMatched = false; 
                     if (event.key.length > 1 || event.ctrlKey || event.altKey || event.metaKey ) {
                         for (const btnData of this.buttonsData) { 
                             if (btnData.hotkey && btnData.hotkey.toLowerCase() === pressedKey) { 
                                 if (!btnData.disabled && (this._canActivateItem(btnData) || btnData.options?.type === 'checkbox' || btnData.options?.type === 'radio')) {
                                     event.preventDefault();
-                                    console.log(`RTSMenu: Hotkey '${btnData.hotkey}' for "${btnData.label}"`);
+                                    // console.log(`JSRTSMenu: Hotkey '${btnData.hotkey}' for "${btnData.label}"`);
                                     if (btnData.options?.type === 'checkbox' || btnData.options?.type === 'radio') {
                                         const oldCheckedState = btnData.options.checked;
                                         this._toggleCheckableItem(btnData);
@@ -294,10 +346,10 @@
                                     specificHotkeyMatched = true;
                                     break; 
                                 } else if (btnData.options?.abilityId && this.cooldownManager.isOnCooldown(btnData.options.abilityId)) { 
-                                    console.log(`RTSMenu: Hotkey '${btnData.hotkey}' ignored, ability on cooldown.`); 
+                                    console.log(`JSRTSMenu: Hotkey '${btnData.hotkey}' ignored, ability on cooldown.`); 
                                     event.preventDefault(); specificHotkeyMatched = true; break;
                                 } else if (btnData.disabled) { 
-                                    console.log(`RTSMenu: Hotkey '${btnData.hotkey}' ignored, item disabled.`); 
+                                    console.log(`JSRTSMenu: Hotkey '${btnData.hotkey}' ignored, item disabled.`); 
                                     event.preventDefault(); specificHotkeyMatched = true; break;
                                 } 
                             } 
@@ -314,7 +366,7 @@
                                 if (this.searchQuery.length > 0) {
                                     this._performSearch();
                                 } else {
-                                    this._clearSearchState("RTSMenu: Search query cleared by backspace.");
+                                    this._clearSearchState("JSRTSMenu: Search query cleared by backspace.");
                                     const currentFocusedItem = this.buttonsData[this.focusedIndex];
                                     if (currentFocusedItem && currentFocusedItem.element && !currentFocusedItem.isSeparator && !currentFocusedItem.disabled) {
                                         this._setFocus(this.focusedIndex);
@@ -327,7 +379,7 @@
                         case 'Escape': 
                             event.preventDefault(); 
                             if (this.searchQuery !== '') {
-                                this._clearSearchState("RTSMenu: Escape cleared active search.");
+                                this._clearSearchState("JSRTSMenu: Escape cleared active search.");
                                 const currentFocusedItem = this.buttonsData[this.focusedIndex];
                                  if (currentFocusedItem && currentFocusedItem.element && !currentFocusedItem.isSeparator && !currentFocusedItem.disabled) {
                                     this._setFocus(this.focusedIndex); 
@@ -362,10 +414,9 @@
             _performSearch() {
                 clearTimeout(this.searchTimeout); 
                 if (!this.searchQuery) {
-                    this._clearSearchState("RTSMenu: Search query became empty, search stopped.");
+                    this._clearSearchState("JSRTSMenu: Search query became empty, search stopped.");
                     return;
                 }
-                // console.log(`RTSMenu: _performSearch looking for "${this.searchQuery}"`);
 
                 let firstMatchIndex = -1;
                 for (let i = 0; i < this.buttonsData.length; i++) {
@@ -382,7 +433,7 @@
                 if (firstMatchIndex !== -1) {
                     this._setFocus(firstMatchIndex);
                 } else {
-                    console.log(`RTSMenu: No match found for "${this.searchQuery}". Current focus index: ${this.focusedIndex}`);
+                    // console.log(`JSRTSMenu: No match found for "${this.searchQuery}". Current focus index: ${this.focusedIndex}`);
                 }
 
                 this.searchTimeout = setTimeout(() => {
@@ -420,7 +471,6 @@
              * @private
              */
             _setFocus(newIndex) { 
-                // console.log(`RTSMenu: Attempting to set focus to index ${newIndex}. Current focusedIndex: ${this.focusedIndex}`);
                 if (this.focusedIndex !== -1 && this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex] && this.buttonsData[this.focusedIndex].element) { 
                     this.buttonsData[this.focusedIndex].element.setAttribute('tabindex', '-1'); 
                 } 
@@ -431,12 +481,12 @@
                         targetButton.setAttribute('tabindex', '0'); 
                         targetButton.focus({ preventScroll: true }); 
                         targetButton.scrollIntoView({ block: 'nearest', inline: 'nearest' }); 
-                        console.log(`RTSMenu: Focus successfully set to index ${this.focusedIndex}, label: "${this.buttonsData[this.focusedIndex]?.label}"`);
+                        // console.log(`JSRTSMenu: Focus successfully set to index ${this.focusedIndex}, label: "${this.buttonsData[this.focusedIndex]?.label}"`);
                     } 
                 } else if (newIndex === -1 || !(this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex])) {
-                    if (this.focusedIndex === -1 || newIndex === -1) {
-                       console.log(`RTSMenu: Focus cleared or attempt to focus invalid index ${newIndex}. Final focusedIndex: -1`);
-                    }
+                    // if (this.focusedIndex === -1 || newIndex === -1) {
+                    //    console.log(`JSRTSMenu: Focus cleared or attempt to focus invalid index ${newIndex}. Final focusedIndex: -1`);
+                    // }
                     this.focusedIndex = -1; 
                 }
             }
@@ -463,10 +513,10 @@
                     }
                     this._clearSearchState(null);
                 } else if (this._canActivateItem(focusedBtnData)) { 
-                    console.log(`RTSMenu: Activated "${focusedBtnData.label}" via Enter/Space`); 
+                    // console.log(`JSRTSMenu: Activated "${focusedBtnData.label}" via Enter/Space`); 
                     this._executeCallback(focusedBtnData); 
                 } else { 
-                     console.log(`RTSMenu: Attempted to activate non-standard/non-activatable item: "${focusedBtnData?.label}"`); 
+                     // console.log(`JSRTSMenu: Attempted to activate non-standard/non-activatable item: "${focusedBtnData?.label}"`); 
                 }
             }
 
@@ -488,7 +538,6 @@
                         options.checked = true;
                         buttonData.element.setAttribute('aria-checked', 'true');
                         stateChanged = true;
-                        // Uncheck other radio buttons in the same group
                         this.buttonsData.forEach(item => {
                             if (item !== buttonData && 
                                 item.options?.type === 'radio' && 
@@ -500,7 +549,7 @@
                         });
                     }
                 }
-                if(stateChanged) console.log(`RTSMenu: Toggled ${options.type} "${buttonData.label}" to ${options.checked}`);
+                // if(stateChanged) console.log(`JSRTSMenu: Toggled ${options.type} "${buttonData.label}" to ${options.checked}`);
                 return stateChanged; 
             }
 
@@ -525,7 +574,6 @@
                     this.hide(); 
                 }  
             }
-
             /** Clears all items from the menu. @public */
             clear() { this.focusedIndex = -1; this.visualCooldownTimers.forEach(intervalId => clearInterval(intervalId)); this.visualCooldownTimers.clear(); this.buttonsData = []; this.container.innerHTML = ''; this._clearSearchState(null); }
             
@@ -539,12 +587,12 @@
              */
             _buildButtonDOM(label, callback, options = {}) { 
                 const { type = 'button', checked = false, radioGroup = null, disabled = false, isBackButton = false, tooltip = null, disabledTooltip = null, cooldownSeconds = 0, abilityId = null, iconSrc = null, costText = null, isCostInsufficient = false, hotkey = null, opensSubmenu = false } = options; 
-                if (cooldownSeconds > 0 && !abilityId) { console.warn(`RTSMenu Warning: Button "${label}" has cooldownSeconds but no abilityId.`); } 
+                if (cooldownSeconds > 0 && !abilityId) { console.warn(`JSRTSMenu Warning: Button "${label}" has cooldownSeconds but no abilityId.`); } 
                 const initiallyOnCooldown = abilityId ? this.cooldownManager.isOnCooldown(abilityId) : false; 
                 const isActuallyDisabled = disabled || isCostInsufficient || initiallyOnCooldown; 
                 
                 const wrapper = document.createElement('div'); 
-                wrapper.classList.add('rtsmenu-button-wrapper'); 
+                wrapper.classList.add('js-rts-menu-button-wrapper'); 
                 
                 const buttonElement = document.createElement('button'); 
                 buttonElement.setAttribute('tabindex', '-1'); 
@@ -562,19 +610,18 @@
                 if (hotkey) { buttonElement.setAttribute('aria-keyshortcuts', hotkey); } 
                 if (opensSubmenu) { buttonElement.setAttribute('aria-haspopup', 'true'); buttonElement.setAttribute('aria-expanded', 'false'); } 
 
-                // Add indicator span for checkable items, placed before icon/label
                 if (type === 'checkbox' || type === 'radio') {
                     const indicatorSpan = document.createElement('span');
-                    indicatorSpan.classList.add('rtsmenu-item-indicator');
+                    indicatorSpan.classList.add('js-rts-menu-item-indicator');
                     indicatorSpan.setAttribute('aria-hidden', 'true'); 
                     buttonElement.appendChild(indicatorSpan);
                 }
 
-                if (iconSrc) { const img = document.createElement('img'); img.src = iconSrc; img.classList.add('rtsmenu-button-icon'); img.alt = ''; buttonElement.appendChild(img); } 
-                const labelSpan = document.createElement('span'); labelSpan.classList.add('rtsmenu-button-label'); labelSpan.textContent = label; buttonElement.appendChild(labelSpan); 
-                if (costText) { const span = document.createElement('span'); span.classList.add('rtsmenu-button-cost'); if (isCostInsufficient) span.classList.add('cost-insufficient'); span.textContent = costText; buttonElement.appendChild(span); } 
-                if (hotkey && !isBackButton) { const hotkeySpan = document.createElement('span'); hotkeySpan.classList.add('rtsmenu-button-hotkey'); hotkeySpan.textContent = `(${hotkey.toUpperCase()})`; wrapper.appendChild(hotkeySpan); } 
-                if(isBackButton) buttonElement.classList.add('rtsmenu-back-button'); 
+                if (iconSrc) { const img = document.createElement('img'); img.src = iconSrc; img.classList.add('js-rts-menu-button-icon'); img.alt = ''; buttonElement.appendChild(img); } 
+                const labelSpan = document.createElement('span'); labelSpan.classList.add('js-rts-menu-button-label'); labelSpan.textContent = label; buttonElement.appendChild(labelSpan); 
+                if (costText) { const span = document.createElement('span'); span.classList.add('js-rts-menu-button-cost'); if (isCostInsufficient) span.classList.add('cost-insufficient'); span.textContent = costText; buttonElement.appendChild(span); } 
+                if (hotkey && !isBackButton) { const hotkeySpan = document.createElement('span'); hotkeySpan.classList.add('js-rts-menu-button-hotkey'); hotkeySpan.textContent = `(${hotkey.toUpperCase()})`; wrapper.appendChild(hotkeySpan); } 
+                if(isBackButton) buttonElement.classList.add('js-rts-menu-back-button'); 
                 
                 const mergedOptions = { ...options, type, checked, radioGroup, abilityId, cooldownSeconds, disabled: isActuallyDisabled, disabledOriginal: disabled, opensSubmenu, iconSrc, costText, isCostInsufficient, hotkey, tooltip, disabledTooltip }; 
                 const buttonData = { label, callback, disabled: isActuallyDisabled, tooltip, disabledTooltip, element: buttonElement, wrapper, originalLabel: label, isBackButton, hotkey, options: mergedOptions }; 
@@ -587,18 +634,18 @@
                         const oldCheckedState = buttonData.options.checked;
                         const stateActuallyChanged = this._toggleCheckableItem(buttonData);
                         if (typeof buttonData.callback === 'function') {
-                             if (buttonData.options.type === 'checkbox' || stateActuallyChanged) { // For radio, only call if state actually changed
+                             if (buttonData.options.type === 'checkbox' || stateActuallyChanged) {
                                 buttonData.callback(buttonData.options.checked, buttonData);
                             }
                         }
                         this._clearSearchState(null); 
                     } else if (this._canActivateItem(buttonData) && typeof buttonData.callback === 'function') { 
                         this._executeCallback(buttonData); 
-                    } else if (buttonData.options?.opensSubmenu && typeof buttonData.callback === 'function') { // Handles submenu items that also have a primary action
-                         this._executeCallback(buttonData);
+                    } else if (buttonData.options?.opensSubmenu && typeof buttonData.callback === 'function') { 
+                        this._executeCallback(buttonData);
                     }
                      else { 
-                        console.log(`RTSMenu: Clicked non-standard/non-activatable item: ${label}`); 
+                        // console.log(`JSRTSMenu: Clicked non-standard/non-activatable item: ${label}`); 
                     } 
                 }); 
                 
@@ -618,7 +665,7 @@
              * Adds a new button to the menu.
              * @param {string} label - The text label for the button.
              * @param {function} callback - The function to execute when the button is activated.
-             * @param {object} [options={}] - Optional parameters: type ('button'|'checkbox'|'radio'), checked (boolean), radioGroup (string), disabled (boolean), isBackButton (boolean), tooltip (string), disabledTooltip (string), cooldownSeconds (number), abilityId (string), iconSrc (string), costText (string), isCostInsufficient (boolean), hotkey (string), opensSubmenu (boolean).
+             * @param {object} [options={}] - Optional parameters.
              * @public
              */
             addButton(label, callback, options = {}) { const {buttonData, wrapper} = this._buildButtonDOM(label, callback, options); this.buttonsData.push(buttonData); this.container.appendChild(wrapper); if(buttonData.options?.abilityId && this.cooldownManager.isOnCooldown(buttonData.options.abilityId)) { this._updateButtonCooldownState(buttonData); } }
@@ -630,15 +677,15 @@
             _hideTooltip() { clearTimeout(this.tooltipShowTimeout); this.activeTooltipTarget = null; this.tooltipHideTimeout = setTimeout(() => { if (this.tooltipElement && !this.activeTooltipTarget) { this.tooltipElement.style.opacity = '0'; const transitionDuration = parseFloat(getComputedStyle(this.tooltipElement).transitionDuration) * 1000 || 150; setTimeout(() => { if(this.tooltipElement.style.opacity === '0') { this.tooltipElement.style.visibility = 'hidden'; this.tooltipElement.setAttribute('aria-hidden', 'true'); this.tooltipElement.style.left = '-9999px'; this.tooltipElement.style.top = '-9999px'; }}, transitionDuration); } }, 50); }
             
             /** Adds a separator line to the menu. @public */
-            addSeparator() { const sep = document.createElement('div'); sep.classList.add('rtsmenu-separator'); sep.setAttribute('role', 'separator'); this.container.appendChild(sep); this.buttonsData.push({isSeparator: true, wrapper: sep }); }
+            addSeparator() { const sep = document.createElement('div'); sep.classList.add('js-rts-menu-separator'); sep.setAttribute('role', 'separator'); this.container.appendChild(sep); this.buttonsData.push({isSeparator: true, wrapper: sep }); }
             
             /** Updates the visual state of a button with a cooldown. @private */
-            _updateButtonCooldownState(buttonData) { const abilityId = buttonData.options?.abilityId; if (!abilityId || !buttonData.element || !buttonData.wrapper) return; const remainingSeconds = this.cooldownManager.getRemainingSeconds(abilityId); const isOnCd = remainingSeconds > 0; const baseDisabled = (buttonData.options?.disabledOriginal ?? false) || (buttonData.options?.isCostInsufficient ?? false); buttonData.disabled = baseDisabled || isOnCd; buttonData.element.disabled = buttonData.disabled; if (buttonData.disabled) { buttonData.element.setAttribute('aria-disabled', 'true'); } else { buttonData.element.removeAttribute('aria-disabled'); } let ov = buttonData.wrapper.querySelector('.rtsmenu-button-cooldown-timer'); if (isOnCd) { if (!ov) { ov = document.createElement('div'); ov.classList.add('rtsmenu-button-cooldown-timer'); buttonData.wrapper.appendChild(ov); } ov.style.display = 'flex'; ov.textContent = `${remainingSeconds.toFixed(1)}s`; if (!this.visualCooldownTimers.has(abilityId)) { const intervalId = setInterval(() => { const currentBtnData = this.buttonsData.find(bd => bd.options?.abilityId === abilityId && bd.element === buttonData.element); if (!currentBtnData || !this.isVisible) { clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); return; } const currentRemaining = this.cooldownManager.getRemainingSeconds(abilityId); const currentOv = currentBtnData.wrapper?.querySelector('.rtsmenu-button-cooldown-timer'); if (currentRemaining > 0 && currentOv) { currentOv.textContent = `${currentRemaining.toFixed(1)}s`; if (!currentBtnData.element.disabled) { currentBtnData.disabled = true; currentBtnData.element.disabled = true; currentBtnData.element.setAttribute('aria-disabled', 'true'); } } else { if (currentOv) currentOv.style.display = 'none'; const originallyDisabled = (currentBtnData.options?.disabledOriginal ?? false) || (currentBtnData.options?.isCostInsufficient ?? false); if(!originallyDisabled) { currentBtnData.disabled = false; currentBtnData.element.disabled = false; currentBtnData.element.removeAttribute('aria-disabled'); } clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); } }, 100); this.visualCooldownTimers.set(abilityId, intervalId); } } else { if (ov) ov.style.display = 'none'; if (this.visualCooldownTimers.has(abilityId)) { clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); } const originallyDisabled = (buttonData.options?.disabledOriginal ?? false) || (buttonData.options?.isCostInsufficient ?? false); if(!originallyDisabled) { buttonData.disabled = false; buttonData.element.disabled = false; buttonData.element.removeAttribute('aria-disabled'); } } }
+            _updateButtonCooldownState(buttonData) { const abilityId = buttonData.options?.abilityId; if (!abilityId || !buttonData.element || !buttonData.wrapper) return; const remainingSeconds = this.cooldownManager.getRemainingSeconds(abilityId); const isOnCd = remainingSeconds > 0; const baseDisabled = (buttonData.options?.disabledOriginal ?? false) || (buttonData.options?.isCostInsufficient ?? false); buttonData.disabled = baseDisabled || isOnCd; buttonData.element.disabled = buttonData.disabled; if (buttonData.disabled) { buttonData.element.setAttribute('aria-disabled', 'true'); } else { buttonData.element.removeAttribute('aria-disabled'); } let ov = buttonData.wrapper.querySelector('.js-rts-menu-button-cooldown-timer'); if (isOnCd) { if (!ov) { ov = document.createElement('div'); ov.classList.add('js-rts-menu-button-cooldown-timer'); buttonData.wrapper.appendChild(ov); } ov.style.display = 'flex'; ov.textContent = `${remainingSeconds.toFixed(1)}s`; if (!this.visualCooldownTimers.has(abilityId)) { const intervalId = setInterval(() => { const currentBtnData = this.buttonsData.find(bd => bd.options?.abilityId === abilityId && bd.element === buttonData.element); if (!currentBtnData || !this.isVisible) { clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); return; } const currentRemaining = this.cooldownManager.getRemainingSeconds(abilityId); const currentOv = currentBtnData.wrapper?.querySelector('.js-rts-menu-button-cooldown-timer'); if (currentRemaining > 0 && currentOv) { currentOv.textContent = `${currentRemaining.toFixed(1)}s`; if (!currentBtnData.element.disabled) { currentBtnData.disabled = true; currentBtnData.element.disabled = true; currentBtnData.element.setAttribute('aria-disabled', 'true'); } } else { if (currentOv) currentOv.style.display = 'none'; const originallyDisabled = (currentBtnData.options?.disabledOriginal ?? false) || (currentBtnData.options?.isCostInsufficient ?? false); if(!originallyDisabled) { currentBtnData.disabled = false; currentBtnData.element.disabled = false; currentBtnData.element.removeAttribute('aria-disabled'); } clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); } }, 100); this.visualCooldownTimers.set(abilityId, intervalId); } } else { if (ov) ov.style.display = 'none'; if (this.visualCooldownTimers.has(abilityId)) { clearInterval(this.visualCooldownTimers.get(abilityId)); this.visualCooldownTimers.delete(abilityId); } const originallyDisabled = (buttonData.options?.disabledOriginal ?? false) || (buttonData.options?.isCostInsufficient ?? false); if(!originallyDisabled) { buttonData.disabled = false; buttonData.element.disabled = false; buttonData.element.removeAttribute('aria-disabled'); } } }
             
             /**
              * Shows the root menu.
              * @param {HTMLElement|{x: number, y: number}} targetOrPosition - The element or coordinates to anchor the menu to.
-             * @param {function} builderFn - A function that populates the menu with items using `addButton`, `addSeparator`.
+             * @param {function} builderFn - A function that populates the menu with items.
              * @param {HTMLElement|null} [triggerEl=null] - The element that triggered the menu, for focus restoration.
              * @public
              */
@@ -653,7 +700,7 @@
                     this.currentSequenceAnchor = { x: targetOrPosition.x, y: targetOrPosition.y }; 
                 } else {
                      this.currentSequenceAnchor = {x:0, y:0}; 
-                     console.warn("RTSMenu: showRoot called with invalid targetOrPosition for anchor; defaulting to (0,0).");
+                     console.warn("JSRTSMenu: showRoot called with invalid targetOrPosition for anchor; defaulting to (0,0).");
                 }
                 this.show(this.currentSequenceAnchor, builderFn, null); 
             }
@@ -662,7 +709,7 @@
              * Shows a menu or submenu.
              * @param {HTMLElement|{x: number, y: number}} targetOrPosition - The element or coordinates to anchor this specific menu view to.
              * @param {function} builderFn - Function to populate this menu view.
-             * @param {number|null} [indexToFocusInThisMenu=null] - Index of item to focus upon showing (e.g., after returning from submenu).
+             * @param {number|null} [indexToFocusInThisMenu=null] - Index of item to focus upon showing.
              * @public
              */
             show(targetOrPosition, builderFn, indexToFocusInThisMenu = null) { 
@@ -671,7 +718,7 @@
                 this.nextItemId = 0; 
                 const anchorForThisView = targetOrPosition || this.currentSequenceAnchor || {x:0,y:0};
 
-                if (typeof builderFn === 'function') builderFn(); else { console.error("RTSMenu Error: show() requires builder."); this.hide(); return; } 
+                if (typeof builderFn === 'function') builderFn(); else { console.error("JSRTSMenu Error: show() requires builder."); this.hide(); return; } 
                 const menuItems = this.buttonsData.filter(b => b.element && !b.isSeparator); if (menuItems.length === 0) { this.hide(); return; } 
                 this.container.style.maxHeight = ''; this.container.style.overflowY = ''; 
                 this.container.style.visibility = 'hidden'; this.container.style.display = 'block'; this.container.style.opacity = '0'; 
@@ -679,9 +726,9 @@
                 if (menuActualHeight > maxMenuHeight) { this.container.style.maxHeight = `${maxMenuHeight}px`; this.container.style.overflowY = 'auto'; } 
                 const menuRect = this.container.getBoundingClientRect(); const menuWidth = menuRect.width; const menuHeight = menuRect.height; let idealX, idealY; const vpW = window.innerWidth; const vpH = window.innerHeight; const sX = window.pageXOffset; const sY = window.pageYOffset; const m = 5; 
                 
-                if (anchorForThisView instanceof HTMLElement) { const tR = anchorForThisView.getBoundingClientRect(); idealX = tR.right + sX + m; idealY = tR.top + sY; /* Align top of submenu with top of parent item usually */ if (idealX + menuWidth > vpW + sX - m) { idealX = tR.left + sX - menuWidth - m; /* Flip to left */ } if (idealY + menuHeight > vpH + sY - m) { idealY = vpH + sY - menuHeight - m; /* Adjust upwards if too low */ } if (idealX < sX + m) idealX = sX + m; if (idealY < sY + m) idealY = sY + m; } 
+                if (anchorForThisView instanceof HTMLElement) { const tR = anchorForThisView.getBoundingClientRect(); idealX = tR.right + sX + m; idealY = tR.top + sY; if (idealX + menuWidth > vpW + sX - m) { idealX = tR.left + sX - menuWidth - m; } if (idealY + menuHeight > vpH + sY - m) { idealY = vpH + sY - menuHeight - m; } if (idealX < sX + m) idealX = sX + m; if (idealY < sY + m) idealY = sY + m; } 
                 else if (typeof anchorForThisView === 'object' && 'x' in anchorForThisView && 'y' in anchorForThisView) { idealX = anchorForThisView.x; idealY = anchorForThisView.y; if (idealX + menuWidth > vpW + sX - m) idealX = vpW + sX - menuWidth - m; if (idealY + menuHeight > vpH + sY - m) idealY = vpH + sY - menuHeight - m; if (idealX < sX + m) idealX = sX + m; if (idealY < sY + m) idealY = sY + m; } 
-                else { console.error("RTSMenu Error: show() needs valid anchor for positioning."); this.hide(); return; } 
+                else { console.error("JSRTSMenu Error: show() needs valid anchor for positioning."); this.hide(); return; } 
                 
                 this.container.style.left = `${Math.max(sX + m, idealX)}px`; this.container.style.top = `${Math.max(sY + m, idealY)}px`; 
                 this.isVisible = true; this.container.style.visibility = 'visible'; this.container.style.opacity = '1'; 
@@ -710,7 +757,7 @@
                      const triggerWrapperRect = triggerItemData.wrapper.getBoundingClientRect();
                      submenuAnchorTarget = { 
                          x: triggerWrapperRect.right + window.pageXOffset + 2, 
-                         y: triggerWrapperRect.top + window.pageYOffset // Align top of submenu with top of parent item
+                         y: triggerWrapperRect.top + window.pageYOffset 
                      };
                  } 
                  
@@ -747,7 +794,7 @@
              * @returns {boolean} True if successful, false otherwise.
              * @public
              */
-            addItemAt(index, label, callback, options = {}) { if (!this.isVisible) { console.warn("RTSMenu: Cannot add item when menu is not visible."); return false; } if (typeof index !== 'number' || index < 0 || index > this.buttonsData.length) { console.error(`RTSMenu Error: addItemAt index ${index} out of bounds (0-${this.buttonsData.length}).`); return false; } const {buttonData, wrapper: newWrapperElement} = this._buildButtonDOM(label, callback, options); if (!buttonData || !newWrapperElement) { console.error("RTSMenu Error: Failed to build DOM for new item in addItemAt."); return false; } if (index === this.buttonsData.length) { this.container.appendChild(newWrapperElement); this.buttonsData.push(buttonData); } else { const existingItem = this.buttonsData[index]; const referenceNode = existingItem?.wrapper || null; this.container.insertBefore(newWrapperElement, referenceNode); this.buttonsData.splice(index, 0, buttonData); } const currentFocusedElement = document.activeElement; let oldFocusedIndex = this.buttonsData.findIndex(bd => bd.element === currentFocusedElement && bd.element !== buttonData.element); if (oldFocusedIndex !== -1 && index <= oldFocusedIndex) { this.focusedIndex = oldFocusedIndex + 1; } else if (this.focusedIndex !== -1 && index <= this.focusedIndex) { this.focusedIndex++; } if (buttonData.element && !buttonData.disabled) { this._setFocus(index); } else if (this.focusedIndex !== -1) { if (this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex].element && !this.buttonsData[this.focusedIndex].isSeparator && !this.buttonsData[this.focusedIndex].disabled) { this._setFocus(this.focusedIndex); } else { this.navigateToFirst(); } } else { this.navigateToFirst(); } this._checkAndApplyScrollability(); if(buttonData.options?.abilityId && this.cooldownManager.isOnCooldown(buttonData.options.abilityId)) { this._updateButtonCooldownState(buttonData); } console.log(`RTSMenu: Added item "${label}" at index ${index}.`); return true; }
+            addItemAt(index, label, callback, options = {}) { if (!this.isVisible) { console.warn("JSRTSMenu: Cannot add item when menu is not visible."); return false; } if (typeof index !== 'number' || index < 0 || index > this.buttonsData.length) { console.error(`JSRTSMenu Error: addItemAt index ${index} out of bounds (0-${this.buttonsData.length}).`); return false; } const {buttonData, wrapper: newWrapperElement} = this._buildButtonDOM(label, callback, options); if (!buttonData || !newWrapperElement) { console.error("JSRTSMenu Error: Failed to build DOM for new item in addItemAt."); return false; } if (index === this.buttonsData.length) { this.container.appendChild(newWrapperElement); this.buttonsData.push(buttonData); } else { const existingItem = this.buttonsData[index]; const referenceNode = existingItem?.wrapper || null; this.container.insertBefore(newWrapperElement, referenceNode); this.buttonsData.splice(index, 0, buttonData); } const currentFocusedElement = document.activeElement; let oldFocusedIndex = this.buttonsData.findIndex(bd => bd.element === currentFocusedElement && bd.element !== buttonData.element); if (oldFocusedIndex !== -1 && index <= oldFocusedIndex) { this.focusedIndex = oldFocusedIndex + 1; } else if (this.focusedIndex !== -1 && index <= this.focusedIndex) { this.focusedIndex++; } if (buttonData.element && !buttonData.disabled) { this._setFocus(index); } else if (this.focusedIndex !== -1) { if (this.focusedIndex < this.buttonsData.length && this.buttonsData[this.focusedIndex].element && !this.buttonsData[this.focusedIndex].isSeparator && !this.buttonsData[this.focusedIndex].disabled) { this._setFocus(this.focusedIndex); } else { this.navigateToFirst(); } } else { this.navigateToFirst(); } this._checkAndApplyScrollability(); if(buttonData.options?.abilityId && this.cooldownManager.isOnCooldown(buttonData.options.abilityId)) { this._updateButtonCooldownState(buttonData); } console.log(`JSRTSMenu: Added item "${label}" at index ${index}.`); return true; }
             
             /**
              * Removes a menu item from a specific index.
@@ -755,7 +802,7 @@
              * @returns {boolean} True if successful, false otherwise.
              * @public
              */
-            removeItemAt(index) { if (!this.isVisible) { console.warn("RTSMenu: Cannot remove item when menu is not visible."); return false; } if (typeof index !== 'number' || index < 0 || index >= this.buttonsData.length) { console.error(`RTSMenu Error: removeItemAt index ${index} is out of bounds.`); return false; } const removedItemData = this.buttonsData[index]; if (removedItemData && removedItemData.wrapper) { if(removedItemData.options?.abilityId && this.visualCooldownTimers.has(removedItemData.options.abilityId)) { clearInterval(this.visualCooldownTimers.get(removedItemData.options.abilityId)); this.visualCooldownTimers.delete(removedItemData.options.abilityId); } removedItemData.wrapper.remove(); } this.buttonsData.splice(index, 1); console.log(`RTSMenu: Removed item at index ${index}. Label: "${removedItemData?.label}"`); if (this.buttonsData.length === 0) { this._setFocus(-1); this.hide(); } else if (this.focusedIndex === index) { const newFocusCandidateIndex = Math.min(index, this.buttonsData.length - 1); this._setFocus(newFocusCandidateIndex); if(this.focusedIndex === -1 || (this.buttonsData[this.focusedIndex] && (this.buttonsData[this.focusedIndex].isSeparator || this.buttonsData[this.focusedIndex].disabled)) ) { this.navigateToFirst(); } } else if (this.focusedIndex > index) { this._setFocus(this.focusedIndex - 1); } else if (this.focusedIndex !== -1) { this._setFocus(this.focusedIndex); } this._checkAndApplyScrollability(); return true; }
+            removeItemAt(index) { if (!this.isVisible) { console.warn("JSRTSMenu: Cannot remove item when menu is not visible."); return false; } if (typeof index !== 'number' || index < 0 || index >= this.buttonsData.length) { console.error(`JSRTSMenu Error: removeItemAt index ${index} is out of bounds.`); return false; } const removedItemData = this.buttonsData[index]; if (removedItemData && removedItemData.wrapper) { if(removedItemData.options?.abilityId && this.visualCooldownTimers.has(removedItemData.options.abilityId)) { clearInterval(this.visualCooldownTimers.get(removedItemData.options.abilityId)); this.visualCooldownTimers.delete(removedItemData.options.abilityId); } removedItemData.wrapper.remove(); } this.buttonsData.splice(index, 1); console.log(`JSRTSMenu: Removed item at index ${index}. Label: "${removedItemData?.label}"`); if (this.buttonsData.length === 0) { this._setFocus(-1); this.hide(); } else if (this.focusedIndex === index) { const newFocusCandidateIndex = Math.min(index, this.buttonsData.length - 1); this._setFocus(newFocusCandidateIndex); if(this.focusedIndex === -1 || (this.buttonsData[this.focusedIndex] && (this.buttonsData[this.focusedIndex].isSeparator || this.buttonsData[this.focusedIndex].disabled)) ) { this.navigateToFirst(); } } else if (this.focusedIndex > index) { this._setFocus(this.focusedIndex - 1); } else if (this.focusedIndex !== -1) { this._setFocus(this.focusedIndex); } this._checkAndApplyScrollability(); return true; }
             
             /**
              * Updates an existing menu item at a specific index.
@@ -766,10 +813,10 @@
              * @public
              */
             updateItemAt(index, newLabel, newOptions = {}) { 
-                if (!this.isVisible) { console.warn("RTSMenu: Cannot update item when menu is not visible."); return false; } 
-                if (typeof index !== 'number' || index < 0 || index >= this.buttonsData.length) { console.error(`RTSMenu Error: updateItemAt index ${index} out of bounds.`); return false; } 
+                if (!this.isVisible) { console.warn("JSRTSMenu: Cannot update item when menu is not visible."); return false; } 
+                if (typeof index !== 'number' || index < 0 || index >= this.buttonsData.length) { console.error(`JSRTSMenu Error: updateItemAt index ${index} out of bounds.`); return false; } 
                 const currentItemData = this.buttonsData[index]; 
-                if (currentItemData.isSeparator) { console.error(`RTSMenu Error: Cannot update a separator at index ${index}.`); return false; } 
+                if (currentItemData.isSeparator) { console.error(`JSRTSMenu Error: Cannot update a separator at index ${index}.`); return false; } 
                 
                 const currentElement = currentItemData.element; 
                 const currentWrapper = currentItemData.wrapper; 
@@ -804,7 +851,7 @@
                 currentItemData.disabled = finalDisabledState; 
                 currentItemData.options = { ...updatedOptions, disabled: finalDisabledState, disabledOriginal: baseDisabled, isCostInsufficient: costInsufficient, abilityId: currentAbilityId, cooldownSeconds: updatedOptions.cooldownSeconds !== undefined ? updatedOptions.cooldownSeconds : (baseOptions.cooldownSeconds || 0) }; 
                 
-                const labelSpan = currentElement.querySelector('.rtsmenu-button-label'); 
+                const labelSpan = currentElement.querySelector('.js-rts-menu-button-label'); 
                 if (labelSpan) labelSpan.textContent = newLabel; 
                 
                 const newType = currentItemData.options.type;
@@ -817,12 +864,12 @@
                     currentElement.setAttribute('role', newRole);
                 }
 
-                let indicatorSpan = currentElement.querySelector('.rtsmenu-item-indicator');
+                let indicatorSpan = currentElement.querySelector('.js-rts-menu-item-indicator');
                 if (newType === 'checkbox' || newType === 'radio') {
                     currentElement.setAttribute('aria-checked', String(currentItemData.options.checked));
                     if (!indicatorSpan) {
                         indicatorSpan = document.createElement('span');
-                        indicatorSpan.classList.add('rtsmenu-item-indicator');
+                        indicatorSpan.classList.add('js-rts-menu-item-indicator');
                         indicatorSpan.setAttribute('aria-hidden', 'true');
                         currentElement.insertBefore(indicatorSpan, currentElement.firstChild); 
                     }
@@ -831,13 +878,13 @@
                     if (indicatorSpan) indicatorSpan.remove(); 
                 }
                 
-                let iconImg = currentElement.querySelector('.rtsmenu-button-icon'); 
+                let iconImg = currentElement.querySelector('.js-rts-menu-button-icon'); 
                 const newIconSrc = currentItemData.options.iconSrc; 
                 if (newIconSrc !== undefined) { 
                     if(newIconSrc) { 
                         if (!iconImg) { 
                             iconImg = document.createElement('img'); 
-                            iconImg.classList.add('rtsmenu-button-icon'); 
+                            iconImg.classList.add('js-rts-menu-button-icon'); 
                             iconImg.alt = ''; 
                             const refNodeForIcon = indicatorSpan ? indicatorSpan.nextSibling : (labelSpan || currentElement.firstChild);
                             currentElement.insertBefore(iconImg, refNodeForIcon); 
@@ -846,12 +893,12 @@
                     } else if (iconImg) { iconImg.remove(); } 
                 } 
 
-                let costSpan = currentElement.querySelector('.rtsmenu-button-cost'); 
+                let costSpan = currentElement.querySelector('.js-rts-menu-button-cost'); 
                 const newCostText = currentItemData.options.costText; 
-                if (newCostText !== undefined) { if(newCostText) { if(!costSpan) { costSpan = document.createElement('span'); costSpan.classList.add('rtsmenu-button-cost'); currentElement.appendChild(costSpan); } costSpan.textContent = newCostText; } else if (costSpan) { costSpan.remove(); } } if (costSpan) { costSpan.classList.toggle('cost-insufficient', currentItemData.options.isCostInsufficient); } 
-                let hotkeySpanWrapper = currentWrapper.querySelector('.rtsmenu-button-hotkey'); 
+                if (newCostText !== undefined) { if(newCostText) { if(!costSpan) { costSpan = document.createElement('span'); costSpan.classList.add('js-rts-menu-button-cost'); currentElement.appendChild(costSpan); } costSpan.textContent = newCostText; } else if (costSpan) { costSpan.remove(); } } if (costSpan) { costSpan.classList.toggle('cost-insufficient', currentItemData.options.isCostInsufficient); } 
+                let hotkeySpanWrapper = currentWrapper.querySelector('.js-rts-menu-button-hotkey'); 
                 const displayHotkey = currentItemData.hotkey; 
-                if (displayHotkey && !currentItemData.isBackButton) { if (!hotkeySpanWrapper) { hotkeySpanWrapper = document.createElement('span'); hotkeySpanWrapper.classList.add('rtsmenu-button-hotkey'); currentWrapper.appendChild(hotkeySpanWrapper); } hotkeySpanWrapper.textContent = `(${displayHotkey.toUpperCase()})`; } else if (hotkeySpanWrapper) { hotkeySpanWrapper.remove(); } 
+                if (displayHotkey && !currentItemData.isBackButton) { if (!hotkeySpanWrapper) { hotkeySpanWrapper = document.createElement('span'); hotkeySpanWrapper.classList.add('js-rts-menu-button-hotkey'); currentWrapper.appendChild(hotkeySpanWrapper); } hotkeySpanWrapper.textContent = `(${displayHotkey.toUpperCase()})`; } else if (hotkeySpanWrapper) { hotkeySpanWrapper.remove(); } 
                 
                 currentElement.disabled = finalDisabledState; 
                 if (finalDisabledState) { currentElement.setAttribute('aria-disabled', 'true'); } else { currentElement.removeAttribute('aria-disabled'); } 
@@ -866,19 +913,19 @@
                     currentElement.removeAttribute('aria-describedby');
                 }
 
-                if (currentItemData.options.abilityId) { this._updateButtonCooldownState(currentItemData); } if (finalDisabledState && this.focusedIndex === index) { this.navigateToFirst(); } this._checkAndApplyScrollability(); console.log(`RTSMenu: Updated item at index ${index} to "${newLabel}".`); return true; 
+                if (currentItemData.options.abilityId) { this._updateButtonCooldownState(currentItemData); } if (finalDisabledState && this.focusedIndex === index) { this.navigateToFirst(); } this._checkAndApplyScrollability(); console.log(`JSRTSMenu: Updated item at index ${index} to "${newLabel}".`); return true; 
             }
             /** Checks and applies scrollability to the menu container if needed. @private */
             _checkAndApplyScrollability() { if(!this.isVisible && this.container.style.display !== 'block') { this.container.style.visibility = 'hidden'; this.container.style.display = 'block';} const menuActualHeight = this.container.scrollHeight; if(!this.isVisible) { this.container.style.display = 'none'; this.container.style.visibility = '';} if(!this.isVisible) return; const viewportHeight = window.innerHeight; const maxMenuHeightPercentage = 0.85; const maxMenuHeight = viewportHeight * maxMenuHeightPercentage; if (menuActualHeight > maxMenuHeight) { if (this.container.style.maxHeight !== `${maxMenuHeight}px`) { this.container.style.maxHeight = `${maxMenuHeight}px`; } if (this.container.style.overflowY !== 'auto') { this.container.style.overflowY = 'auto'; } } else { if (this.container.style.maxHeight !== '') { this.container.style.maxHeight = ''; } if (this.container.style.overflowY !== '') { this.container.style.overflowY = ''; } } }
         }
 
         // --- DEMO APPLICATION SETUP ---
-        const rtsMenu = new RTSMenu('rtsmenu-container', globalCooldownManager); 
+        const rtsMenu = new JSRTSMenu('js-rts-menu-container', globalCooldownManager); 
         const buildMainMenu = () => { 
-            rtsMenu.addButton("File", () => { /* opens submenu */ }, { iconSrc: ICONS.SAVE, hotkey: 'F1', opensSubmenu: true, callback: () => {rtsMenu.openSubmenu(buildFileMenu); return true;}, tooltip: "Access <strong>File</strong> options. (F1)" });  
+            rtsMenu.addButton("File", () => { /* For submenu, callback primarily handles submenu opening */ }, { iconSrc: ICONS.SAVE, hotkey: 'F1', opensSubmenu: true, callback: () => {rtsMenu.openSubmenu(buildFileMenu); return true;}, tooltip: "Access <strong>File</strong> options. (F1)" });  
             rtsMenu.addButton("Edit", () => { console.log("Edit clicked (but disabled)"); }, { iconSrc: ICONS.TOOL, hotkey: 'E', disabled: true, tooltip: "Editing not available." }); 
             rtsMenu.addSeparator();
-            rtsMenu.addButton("Enable Feature X", (newState) => { console.log("Feature X state:", newState); document.getElementById('demo-feature-x-status').textContent = `Feature X: ${newState ? 'Enabled' : 'Disabled'}`; }, { type: 'checkbox', checked: false, tooltip: "Toggle Feature X", hotkey:'X' });
+            rtsMenu.addButton("Enable Feature X", (newState) => { console.log("Feature X state:", newState); document.getElementById('demo-feature-x-status').textContent = `Feature X: ${newState ? 'Enabled' : 'Disabled'}`; }, { type: 'checkbox', checked: false, tooltip: "Toggle Feature X", hotkey:'X' }); // X hotkey will be search now
             rtsMenu.addButton("Enable Feature Y", (newState) => { console.log("Feature Y state:", newState); }, { type: 'checkbox', checked: true, tooltip: "Toggle Feature Y (starts checked)" });
             rtsMenu.addSeparator();
             rtsMenu.addButton("Option Alpha (Group 1)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group1', checked: true});
@@ -887,14 +934,14 @@
             rtsMenu.addButton("Setting One (Group 2)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group2'});
             rtsMenu.addButton("Setting Two (Group 2)", (isChecked, itemData) => { if(isChecked) console.log(`${itemData.label} selected`);}, {type: 'radio', radioGroup: 'group2', checked: true});
             rtsMenu.addSeparator();
-            rtsMenu.addButton("Action With Cooldown", () => { console.log("RTSMenu Action: Cooldown Triggered!"); }, { tooltip: "This action has a 5s cooldown.", cooldownSeconds: 5, abilityId: 'globalSpecialAbility', iconSrc: ICONS.ACTION, hotkey: 'C' }); 
+            rtsMenu.addButton("Action With Cooldown", () => { console.log("JSRTSMenu Action: Cooldown Triggered!"); }, { tooltip: "This action has a 5s cooldown.", cooldownSeconds: 5, abilityId: 'globalSpecialAbility', iconSrc: ICONS.ACTION, hotkey: 'C' }); 
             rtsMenu.addSeparator(); 
-            rtsMenu.addButton("Help...", () => { /* opens submenu */ return true; }, { iconSrc: ICONS.INFO, hotkey: 'F2', opensSubmenu: true, callback: () => {rtsMenu.openSubmenu(buildHelpMenu); return true;}, tooltip: "Get help. (F2)" }); 
+            rtsMenu.addButton("Help...", () => { /* For submenu, callback primarily handles submenu opening */ return true; }, { iconSrc: ICONS.INFO, hotkey: 'F2', opensSubmenu: true, callback: () => {rtsMenu.openSubmenu(buildHelpMenu); return true;}, tooltip: "Get help. (F2)" }); 
         };
-        const buildFileMenu = () => { rtsMenu.addBackButton(); rtsMenu.addButton("New", () => console.log("RTSMenu Action: New"), { iconSrc: ICONS.ADD, hotkey: 'N', tooltip: "Create a <em>new</em> document."}); rtsMenu.addButton("Open", () => console.log("RTSMenu Action: Open"), { iconSrc: ICONS.LOAD, hotkey: 'O', tooltip: "Open an existing document."}); rtsMenu.addButton("Save", () => console.log("RTSMenu Action: Save"), { iconSrc: ICONS.SAVE, hotkey: 'S', tooltip: "Save current progress."}); rtsMenu.addSeparator(); rtsMenu.addButton("Exit", () => console.log("RTSMenu Action: Exit"), { iconSrc: ICONS.QUIT, hotkey: 'Q', tooltip: "Exit the application."}); }; 
-        const buildHelpMenu = () => { rtsMenu.addBackButton(); rtsMenu.addButton("About RTSMenu", () => console.log("RTSMenu: Displaying 'About' information..."), { iconSrc: ICONS.INFO, tooltip: "Show <strong>About</strong> dialog." }); rtsMenu.addButton("View Tutorial", () => console.log("RTSMenu: Starting tutorial sequence..."), { iconSrc: ICONS.SETTINGS, tooltip: "Start the interactive tutorial." }); };
-        const buildContextMenu = () => { rtsMenu.addButton("Command 1", () => console.log("RTSMenu Context Action: Command 1"), { iconSrc: ICONS.CMD, hotkey: '1', tooltip: "Execute <em>Command One</em> from context"}); rtsMenu.addButton("Command 2 (Disabled)", () => {}, { iconSrc: ICONS.CMD, hotkey: '2', disabled: true, disabledTooltip: "This command is <strong>currently</strong> unavailable."}); rtsMenu.addSeparator(); rtsMenu.addButton("More Options...", () => { rtsMenu.openSubmenu(buildMoreContextMenuOptions); return true; }, { opensSubmenu: true, hotkey: 'M', tooltip: "View more context actions."}); };
-        const buildMoreContextMenuOptions = () => { rtsMenu.addBackButton(); rtsMenu.addButton("Sub Option A", () => console.log("RTSMenu Context Action: Sub Option A"), { iconSrc: ICONS.SETTINGS}); rtsMenu.addButton("Sub Option B", () => console.log("RTSMenu Context Action: Sub Option B"), { iconSrc: ICONS.SETTINGS}); };
+        const buildFileMenu = () => { rtsMenu.addBackButton(); rtsMenu.addButton("New", () => console.log("JSRTSMenu Action: New"), { iconSrc: ICONS.ADD, hotkey: 'N', tooltip: "Create a <em>new</em> document."}); rtsMenu.addButton("Open", () => console.log("JSRTSMenu Action: Open"), { iconSrc: ICONS.LOAD, hotkey: 'O', tooltip: "Open an existing document."}); rtsMenu.addButton("Save", () => console.log("JSRTSMenu Action: Save"), { iconSrc: ICONS.SAVE, hotkey: 'S', tooltip: "Save current progress."}); rtsMenu.addSeparator(); rtsMenu.addButton("Exit", () => console.log("JSRTSMenu Action: Exit"), { iconSrc: ICONS.QUIT, hotkey: 'Q', tooltip: "Exit the application."}); }; 
+        const buildHelpMenu = () => { rtsMenu.addBackButton(); rtsMenu.addButton("About JSRTSMenu", () => console.log("JSRTSMenu: Displaying 'About' information..."), { iconSrc: ICONS.INFO, tooltip: "Show <strong>About</strong> dialog." }); rtsMenu.addButton("View Tutorial", () => console.log("JSRTSMenu: Starting tutorial sequence..."), { iconSrc: ICONS.SETTINGS, tooltip: "Start the interactive tutorial." }); };
+        const buildContextMenu = () => { rtsMenu.addButton("Command 1", () => console.log("JSRTSMenu Context Action: Command 1"), { iconSrc: ICONS.CMD, hotkey: '1', tooltip: "Execute <em>Command One</em> from context"}); rtsMenu.addButton("Command 2 (Disabled)", () => {}, { iconSrc: ICONS.CMD, hotkey: '2', disabled: true, disabledTooltip: "This command is <strong>currently</strong> unavailable."}); rtsMenu.addSeparator(); rtsMenu.addButton("More Options...", () => { rtsMenu.openSubmenu(buildMoreContextMenuOptions); return true; }, { opensSubmenu: true, hotkey: 'M', tooltip: "View more context actions."}); };
+        const buildMoreContextMenuOptions = () => { rtsMenu.addBackButton(); rtsMenu.addButton("Sub Option A", () => console.log("JSRTSMenu Context Action: Sub Option A"), { iconSrc: ICONS.SETTINGS}); rtsMenu.addButton("Sub Option B", () => console.log("JSRTSMenu Context Action: Sub Option B"), { iconSrc: ICONS.SETTINGS}); };
         const buildLongMenu = () => { rtsMenu.addButton("Top Item", () => console.log("Top item clicked"), {tooltip: "This is the <strong>very</strong> top item."}); for (let i = 1; i <= 25; i++) { rtsMenu.addButton(`Scrollable Item ${i}`, () => console.log(`Clicked Scrollable Item ${i}`), {tooltip: `Details for scrollable item #${i}`}); if (i % 5 === 0) rtsMenu.addSeparator(); } rtsMenu.addButton("Bottom Item", () => console.log("Bottom item clicked"), {tooltip: "The final item at the bottom."}); };
         
         const featureXStatus = document.getElementById('demo-feature-x-status'); 
@@ -908,14 +955,14 @@
         document.addEventListener('keydown', (event) => { if (!(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA'))) { if (event.key.toLowerCase() === 'm') { event.preventDefault(); const trigger = demoTriggerButton || document.body; if (rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === trigger) { rtsMenu.hide(); } else { rtsMenu.showRoot(trigger, buildMainMenu, trigger); } } else if (event.key.toLowerCase() === 'l') { event.preventDefault(); const trigger = demoLongMenuButton || document.body; if (rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === trigger) { rtsMenu.hide(); } else { rtsMenu.showRoot(trigger, buildLongMenu, trigger); } } } });
         document.body.addEventListener('contextmenu', (event) => { event.preventDefault(); let targetElementForPos = event.target; let builder = buildContextMenu; const positionTestTargetEl = document.getElementById('position-test-target'); let focusReturnTarget = (event.target instanceof HTMLElement && event.target.focus && event.target !== document.body) ? event.target : document.body; rtsMenu.lastContextMenuTargetIsBody = (focusReturnTarget === document.body); if (positionTestTargetEl && positionTestTargetEl.contains(targetElementForPos)) { builder = buildMainMenu; targetElementForPos = positionTestTargetEl; focusReturnTarget = positionTestTargetEl;} else if (topLeftTarget && topLeftTarget.contains(targetElementForPos)) { builder = buildMainMenu; targetElementForPos = topLeftTarget; focusReturnTarget = topLeftTarget; } else { targetElementForPos = { x: event.clientX, y: event.clientY }; } rtsMenu.showRoot(targetElementForPos, builder, focusReturnTarget); });
         const positionTestTarget = document.getElementById('position-test-target'); 
-        if(positionTestTarget) { positionTestTarget.addEventListener('click', (e) => { e.stopPropagation(); console.log('RTSMenu Demo: Clicked position test target.'); if(rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === e.currentTarget) { rtsMenu.hide(); } }); }
+        if(positionTestTarget) { positionTestTarget.addEventListener('click', (e) => { e.stopPropagation(); console.log('JSRTSMenu Demo: Clicked position test target.'); if(rtsMenu.isVisible && rtsMenu.triggerElementForCurrentSequence === e.currentTarget) { rtsMenu.hide(); } }); }
 
-        document.getElementById('demo-add-item-start').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.addItemAt(0, "Dyn Start", () => console.log("RTSMenu Action: Dynamic Start Action!"), {iconSrc: ICONS.ADD, tooltip: "Dynamically added!"}); } else { console.warn("RTSMenu Demo: Open a menu first."); } });
-        document.getElementById('demo-add-item-mid').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.addItemAt(2, "Dyn Middle", () => console.log("RTSMenu Action: Dynamic Middle Action!"), {iconSrc: ICONS.INFO, tooltip: "Inserted in the middle."}); } else { console.warn("RTSMenu Demo: Open a menu first."); } });
-        document.getElementById('demo-remove-item-start').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.removeItemAt(0); } else { console.warn("RTSMenu Demo: Open a menu first."); } });
-        document.getElementById('demo-remove-item-mid').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 1) { rtsMenu.removeItemAt(1); } else { console.warn("RTSMenu Demo: Open a menu with at least 2 items."); } });
-        document.getElementById('demo-update-item-0').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 0 && rtsMenu.buttonsData[0] && !rtsMenu.buttonsData[0].isSeparator) { const newLabel = document.getElementById('demo-update-label-text').value || "Updated Label"; rtsMenu.updateItemAt(0, newLabel, { tooltip: `<strong>Important:</strong><br>Tooltip for ${newLabel}` }); } else { console.warn("RTSMenu Demo: Open a menu with at least one non-separator item."); } });
-        document.getElementById('demo-toggle-disable-item-0').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 0 && rtsMenu.buttonsData[0] && !rtsMenu.buttonsData[0].isSeparator) { const currentItem = rtsMenu.buttonsData[0]; const currentItemOptions = currentItem.options || {}; const newDisabledState = !(currentItemOptions.disabledOriginal ?? currentItem.disabled); rtsMenu.updateItemAt(0, currentItem.label, { disabled: newDisabledState, tooltip: newDisabledState ? "Now Disabled by Demo" : "Now Enabled by Demo", disabledTooltip: "Explicitly Disabled by Demo" }); } else { console.warn("RTSMenu Demo: Open a menu with at least one non-separator item."); } });
+        document.getElementById('demo-add-item-start').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.addItemAt(0, "Dyn Start", () => console.log("JSRTSMenu Action: Dynamic Start Action!"), {iconSrc: ICONS.ADD, tooltip: "Dynamically added!"}); } else { console.warn("JSRTSMenu Demo: Open a menu first."); } });
+        document.getElementById('demo-add-item-mid').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.addItemAt(2, "Dyn Middle", () => console.log("JSRTSMenu Action: Dynamic Middle Action!"), {iconSrc: ICONS.INFO, tooltip: "Inserted in the middle."}); } else { console.warn("JSRTSMenu Demo: Open a menu first."); } });
+        document.getElementById('demo-remove-item-start').addEventListener('click', () => { if (rtsMenu.isVisible) { rtsMenu.removeItemAt(0); } else { console.warn("JSRTSMenu Demo: Open a menu first."); } });
+        document.getElementById('demo-remove-item-mid').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 1) { rtsMenu.removeItemAt(1); } else { console.warn("JSRTSMenu Demo: Open a menu with at least 2 items."); } });
+        document.getElementById('demo-update-item-0').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 0 && rtsMenu.buttonsData[0] && !rtsMenu.buttonsData[0].isSeparator) { const newLabel = document.getElementById('demo-update-label-text').value || "Updated Label"; rtsMenu.updateItemAt(0, newLabel, { tooltip: `<strong>Important:</strong><br>Tooltip for ${newLabel}` }); } else { console.warn("JSRTSMenu Demo: Open a menu with at least one non-separator item."); } });
+        document.getElementById('demo-toggle-disable-item-0').addEventListener('click', () => { if (rtsMenu.isVisible && rtsMenu.buttonsData.length > 0 && rtsMenu.buttonsData[0] && !rtsMenu.buttonsData[0].isSeparator) { const currentItem = rtsMenu.buttonsData[0]; const currentItemOptions = currentItem.options || {}; const newDisabledState = !(currentItemOptions.disabledOriginal ?? currentItem.disabled); rtsMenu.updateItemAt(0, currentItem.label, { disabled: newDisabledState, tooltip: newDisabledState ? "Now Disabled by Demo" : "Now Enabled by Demo", disabledTooltip: "Explicitly Disabled by Demo" }); } else { console.warn("JSRTSMenu Demo: Open a menu with at least one non-separator item."); } });
         
         document.getElementById('theme-default-button').addEventListener('click', () => {
             document.body.classList.remove('rtsmenu-dark-theme');
@@ -1053,14 +1100,14 @@
                         return this._assert(document.activeElement === newlyFocusedOpenSubBtn, "Focus returned to parent menu item ('OpenSub') after Esc from submenu.", `Focus not on parent item. Focused: ${document.activeElement?.outerHTML}, Expected 'OpenSub' (newly created).`); 
                     } 
                 ], true);
-                this.defineTest("Dynamic Item Updates (via Menu Methods)", [ async () => { const builder = () => { this.menu.addButton("Initial 1", ()=>{}); this.menu.addButton("Initial 2", ()=>{}); }; this.menu.show({x:0, y:0}, builder, document.getElementById('demo-trigger-button')); this.menu.addItemAt(0, "Dyn Add Start", ()=>{}); const firstItem = this.menu.buttonsData[0]; const domFirstLabel = this.menu.container.querySelector('.rtsmenu-button-wrapper .rtsmenu-button-label')?.textContent; return this._assert(firstItem?.label === "Dyn Add Start" && domFirstLabel === "Dyn Add Start" && this.menu.buttonsData.length === 3, "addItemAt(0): Item added to start.", "addItemAt(0): Failed to add item to start."); }, 
-                async () => { this.menu.removeItemAt(0); const firstItem = this.menu.buttonsData[0]; const domFirstLabel = this.menu.container.querySelector('.rtsmenu-button-wrapper .rtsmenu-button-label')?.textContent; return this._assert(firstItem?.label === "Initial 1" && domFirstLabel === "Initial 1" && this.menu.buttonsData.length === 2, "removeItemAt(0): Item removed from start.", "removeItemAt(0): Failed to remove item from start."); }, 
+                this.defineTest("Dynamic Item Updates (via Menu Methods)", [ async () => { const builder = () => { this.menu.addButton("Initial 1", ()=>{}); this.menu.addButton("Initial 2", ()=>{}); }; this.menu.show({x:0, y:0}, builder, document.getElementById('demo-trigger-button')); this.menu.addItemAt(0, "Dyn Add Start", ()=>{}); const firstItem = this.menu.buttonsData[0]; const domFirstLabel = this.menu.container.querySelector('.js-rts-menu-button-wrapper .js-rts-menu-button-label')?.textContent; return this._assert(firstItem?.label === "Dyn Add Start" && domFirstLabel === "Dyn Add Start" && this.menu.buttonsData.length === 3, "addItemAt(0): Item added to start.", "addItemAt(0): Failed to add item to start."); }, 
+                async () => { this.menu.removeItemAt(0); const firstItem = this.menu.buttonsData[0]; const domFirstLabel = this.menu.container.querySelector('.js-rts-menu-button-wrapper .js-rts-menu-button-label')?.textContent; return this._assert(firstItem?.label === "Initial 1" && domFirstLabel === "Initial 1" && this.menu.buttonsData.length === 2, "removeItemAt(0): Item removed from start.", "removeItemAt(0): Failed to remove item from start."); }, 
                 async () => { 
                     const NEW_LABEL = "UPDATED Initial 1"; 
                     const NEW_TOOLTIP = "Updated tip";
                     this.menu.updateItemAt(0, NEW_LABEL, {tooltip: NEW_TOOLTIP}); 
                     const updatedItem = this.menu.buttonsData[0]; 
-                    const domLabel = updatedItem?.wrapper.querySelector('.rtsmenu-button-label')?.textContent; 
+                    const domLabel = updatedItem?.wrapper.querySelector('.js-rts-menu-button-label')?.textContent; 
                     return this._assert(
                         updatedItem?.label === NEW_LABEL && 
                         domLabel === NEW_LABEL && 
